@@ -4,8 +4,13 @@ using System.IO;
 
 namespace LoxLiaison
 {
-    public class Program
+    public class Liaison
     {
+        /// <summary>
+        /// Whether the interpreter encountered an error.
+        /// </summary>
+        private static bool HadError = false;
+
         /// <summary>
         /// LoxLiaison entry point.
         /// </summary>
@@ -35,10 +40,16 @@ namespace LoxLiaison
         {
             string fileContents = File.ReadAllText(path);
             Run(fileContents);
+
+            // An error occurred, exit!
+            if (HadError)
+            {
+                Environment.Exit(65);
+            }
         }
 
         /// <summary>
-        /// Runs LL as a prompt;
+        /// Runs LL as a REPL prompt.
         /// </summary>
         private static void RunPrompt()
         {
@@ -51,13 +62,16 @@ namespace LoxLiaison
                     break;
                 }
                 Run(line);
+
+                // Reset error flag
+                HadError = false;
             }
         }
 
         /// <summary>
         /// Runs some quantity of Lox code.
         /// </summary>
-        /// <param name="source"></param>
+        /// <param name="source">A piece of Lox code.</param>
         private static void Run(string source)
         {
             Scanner scanner = new Scanner(source);
@@ -67,6 +81,27 @@ namespace LoxLiaison
             {
                 Console.WriteLine(tokens[i]);
             }
+        }
+    
+        /// <summary>
+        /// Prints an error.
+        /// </summary>
+        /// <param name="line">The line number of where the error occurred.</param>
+        /// <param name="message">A message addressing the error.</param>
+        internal static void Error(int line, string message)
+        {
+            Report(line, "", message);
+        }
+
+        /// <summary>
+        /// Reports a message.
+        /// </summary>
+        /// <param name="line">The line number of where the message originates.</param>
+        /// <param name="where">Where the message originates from.</param>
+        /// <param name="message">A message.</param>
+        private static void Report(int line, string where, string message)
+        {
+            Console.WriteLine($"[Line {line}] Error in {where}: {message}");
         }
     }
 }
