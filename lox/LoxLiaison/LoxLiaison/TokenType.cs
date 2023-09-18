@@ -1,6 +1,9 @@
 ﻿namespace LoxLiaison
 {
-    internal enum TokenType
+    /// <summary>
+    /// Represents the type of a given Lox <see cref="Token"/>.
+    /// </summary>
+    public enum TokenType
     {
         // Single character tokens
         LeftParentheses, RightParentheses, LeftBrace, RightBrace,
@@ -18,6 +21,8 @@
         // Keywords
         And, Class, Else, False, Fun, For, If, Nil, Or,
         Print, Return, Super, This, True, Var, While,
+
+        // Special
         Eof
     }
 }

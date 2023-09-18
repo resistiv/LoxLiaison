@@ -4,10 +4,13 @@ using System.IO;
 
 namespace LoxLiaison
 {
+    /// <summary>
+    /// Main entry and utility class.
+    /// </summary>
     public class Liaison
     {
         /// <summary>
-        /// Whether the interpreter encountered an error.
+        /// Whether the interpreter has encountered an error.
         /// </summary>
         private static bool HadError = false;
 
