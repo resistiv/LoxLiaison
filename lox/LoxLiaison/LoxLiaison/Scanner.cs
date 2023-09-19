@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
 
 namespace LoxLiaison
 {
@@ -14,6 +12,26 @@ namespace LoxLiaison
         private int _startIndex = 0;
         private int _currentIndex = 0;
         private int _line = 1;
+
+        private static readonly Dictionary<string, TokenType> Keywords = new()
+        {
+            { "and", TokenType.And },
+            { "class", TokenType.Class },
+            { "else", TokenType.Else },
+            { "false", TokenType.False },
+            { "for", TokenType.For },
+            { "fun", TokenType.Fun },
+            { "if", TokenType.If },
+            { "nil", TokenType.Nil },
+            { "or", TokenType.Or },
+            { "print", TokenType.Print },
+            { "return", TokenType.Return },
+            { "super", TokenType.Super },
+            { "this", TokenType.This },
+            { "true", TokenType.True },
+            { "var", TokenType.Var },
+            { "while", TokenType.While }
+        };
 
         /// <summary>
         /// Constructs a <see cref="Scanner"/>.
@@ -113,8 +131,36 @@ namespace LoxLiaison
                     }
                     break;
 
+                // Whitespace
+                case ' ':
+                case '\r':
+                case '\t':
+                    break;
+
+                // Line break
+                case '\n':
+                    _line++;
+                    break;
+
+                // String
+                case '"':
+                    ReadString();
+                    break;
+
                 default:
-                    Liaison.Error(_line, $"Unexpected character '{c}'.");
+                    // Number
+                    if (IsDigit(c))
+                    {
+                        ReadNumber();
+                    }
+                    else if (IsAlpha(c))
+                    {
+                        Identifier();
+                    }
+                    else
+                    {
+                        Liaison.Error(_line, $"Unexpected character '{c}'.");
+                    }
                     break;
             }
         }
@@ -149,6 +195,36 @@ namespace LoxLiaison
         }
     
         /// <summary>
+        /// Checks if a character is an ASCII digit.
+        /// </summary>
+        /// <param name="c">A character to check.</param>
+        /// <returns>Whether or not the character is an ASCII digit.</returns>
+        private static bool IsDigit(char c)
+        {
+            return c >= '0' && c <= '9';
+        }
+
+        /// <summary>
+        /// Checks if a character is an ASCII alphabetical character.
+        /// </summary>
+        /// <param name="c">A character to check.</param>
+        /// <returns>Whether or not the character is an ASCII alphabetical character.</returns>
+        private static bool IsAlpha(char c)
+        {
+            return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
+        }
+
+        /// <summary>
+        /// Checks if a character is an ASCII alpha-numeric character.
+        /// </summary>
+        /// <param name="c">A character to check.</param>
+        /// <returns>Whether or not the character is an ASCII alpha-numeric character.</returns>
+        private static bool IsAlphaNumeric(char c)
+        {
+            return IsAlpha(c) || IsDigit(c);
+        }
+
+        /// <summary>
         /// Looks ahead in the source <see cref="string"/> and sees if the next <see cref="char"/> matches what is expected.
         /// </summary>
         /// <param name="expected">An expected next <see cref="char"/>.</param>
@@ -179,6 +255,99 @@ namespace LoxLiaison
                 return '\0';
             }
             return _source[_currentIndex];
+        }
+
+        /// <summary>
+        /// Peeks ahead at the second <see cref="char"/> from the current one.
+        /// </summary>
+        /// <returns>The second <see cref="char"/> from the current one.</returns>
+        private char PeekNext()
+        {
+            if (_currentIndex + 1 >= _source.Length)
+            {
+                return '\0';
+            }
+            return _source[_currentIndex + 1];
+        }
+
+        /// <summary>
+        /// Reads a number from the source <see cref="string"/>.
+        /// </summary>
+        private void ReadNumber()
+        {
+            // Read digits
+            while (IsDigit(Peek()))
+            {
+                NextCharacter();
+            }
+
+            // If there is a decimal point, read everything to right of it
+            if (Peek() == '.' && IsDigit(PeekNext()))
+            {
+                NextCharacter();
+                while (IsDigit(Peek()))
+                {
+                    NextCharacter();
+                }
+            }
+
+            // Parse out
+            double value = double.Parse(_source[_startIndex.._currentIndex]);
+            AddToken(TokenType.Number, value);
+        }
+
+        /// <summary>
+        /// Reads a <see cref="string"/> from the source <see cref="string"/>.
+        /// </summary>
+        private void ReadString()
+        {
+            // Read either until we reach closing quote or EOF
+            while (Peek() != '"' && !AtEnd())
+            {
+                if (Peek() == '\n')
+                {
+                    _line++;
+                }
+                NextCharacter();
+            }
+
+            // We ran out of string to read!
+            if (AtEnd())
+            {
+                Liaison.Error(_line, "Unterminated string.");
+                return;
+            }
+
+            // Consume closing double quote
+            NextCharacter();
+
+            // Parse out string
+            string value = _source[(_startIndex + 1)..(_currentIndex - 1)];
+            AddToken(TokenType.String, value);
+        }
+    
+        /// <summary>
+        /// Parses keywords.
+        /// </summary>
+        private void Identifier()
+        {
+            while (IsAlphaNumeric(Peek()))
+            {
+                NextCharacter();
+            }
+
+            string text = _source[_startIndex.._currentIndex];
+            TokenType type;
+            try
+            {
+                type = Keywords[text];
+            }
+            catch (KeyNotFoundException)
+            {
+                type = TokenType.Identifier;
+            }
+
+            AddToken(type);
         }
     }
 }

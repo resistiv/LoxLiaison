@@ -77,8 +77,8 @@ namespace LoxLiaison
         /// <param name="source">A piece of Lox code.</param>
         private static void Run(string source)
         {
-            Scanner scanner = new Scanner(source);
-            List<Token> tokens = scanner.scanTokens();
+            Scanner scanner = new(source);
+            List<Token> tokens = scanner.ScanTokens();
 
             for (int i = 0; i < tokens.Count; i++)
             {
