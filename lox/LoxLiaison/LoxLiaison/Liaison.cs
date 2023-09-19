@@ -22,7 +22,7 @@ namespace LoxLiaison
         {
             if (args.Length > 1)
             {
-                Console.WriteLine("Usage: loxliaison [script]");
+                Console.WriteLine("Usage: LoxLiaison [script]");
                 Environment.Exit(64);
             }
             else if (args.Length == 1)
@@ -58,7 +58,7 @@ namespace LoxLiaison
         {
             while (true)
             {
-                Console.WriteLine("> ");
+                Console.Write("> ");
                 string line = Console.ReadLine();
                 if (line == null)
                 {
