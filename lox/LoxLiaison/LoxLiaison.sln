@@ -5,9 +5,7 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoxLiaison", "LoxLiaison\LoxLiaison.csproj", "{2236B401-6A24-46A5-BD9F-B53691C9BF3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerateAst", "GenerateAst\GenerateAst.csproj", "{160ED107-C283-4BB8-99CB-481C5D7377A0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AstPrinter", "AstPrinter\AstPrinter.csproj", "{AB27782E-4DA7-4B33-BC1D-FBB94063BAD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenerateAst", "GenerateAst\GenerateAst.csproj", "{160ED107-C283-4BB8-99CB-481C5D7377A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{160ED107-C283-4BB8-99CB-481C5D7377A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{160ED107-C283-4BB8-99CB-481C5D7377A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{160ED107-C283-4BB8-99CB-481C5D7377A0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AB27782E-4DA7-4B33-BC1D-FBB94063BAD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AB27782E-4DA7-4B33-BC1D-FBB94063BAD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AB27782E-4DA7-4B33-BC1D-FBB94063BAD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AB27782E-4DA7-4B33-BC1D-FBB94063BAD5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

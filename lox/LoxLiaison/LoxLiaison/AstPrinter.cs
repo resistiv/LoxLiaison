@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
 namespace LoxLiaison
 {
@@ -8,7 +7,7 @@ namespace LoxLiaison
     /// </summary>
     public class AstPrinter : Expr.IVisitor<string>
     {
-        public static void Main(string[] args)
+        /*public static void Main(string[] args)
         {
             Expr expression = new Expr.Binary(
                 new Expr.Unary(
@@ -20,7 +19,7 @@ namespace LoxLiaison
                 );
 
             Console.WriteLine(new AstPrinter().Print(expression));
-        }
+        }*/
 
         public string Print(Expr expr)
         {
