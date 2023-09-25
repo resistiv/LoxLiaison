@@ -80,10 +80,21 @@ namespace LoxLiaison
             Scanner scanner = new(source);
             List<Token> tokens = scanner.ScanTokens();
 
-            for (int i = 0; i < tokens.Count; i++)
+            /*for (int i = 0; i < tokens.Count; i++)
             {
                 Console.WriteLine(tokens[i]);
+            }*/
+
+            Parser parser = new Parser(tokens);
+            Expr expression = parser.Parse();
+
+            // Stop if we encountered a syntax error.
+            if (HadError)
+            {
+                return;
             }
+
+            Console.WriteLine(new AstPrinter().Print(expression));
         }
     
         /// <summary>
@@ -91,9 +102,26 @@ namespace LoxLiaison
         /// </summary>
         /// <param name="line">The line number of where the error occurred.</param>
         /// <param name="message">A message addressing the error.</param>
-        internal static void Error(int line, string message)
+        public static void Error(int line, string message)
         {
             Report(line, "", message);
+        }
+
+        /// <summary>
+        /// Prints an error.
+        /// </summary>
+        /// <param name="token">The <see cref="Token"/> that caused the error.</param>
+        /// <param name="message">A message addressing the error.</param>
+        public static void Error(Token token, string message)
+        {
+            if (token.Type == TokenType.Eof)
+            {
+                Report(token.Line, " at end", message);
+            }
+            else
+            {
+                Report(token.Line, $"at '{token.Lexeme}'", message);
+            }
         }
 
         /// <summary>
