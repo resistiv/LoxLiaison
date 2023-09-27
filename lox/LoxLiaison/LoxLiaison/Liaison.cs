@@ -13,6 +13,7 @@ namespace LoxLiaison
         /// Whether the interpreter has encountered an error.
         /// </summary>
         private static bool HadError = false;
+        private static bool HadRuntimeError = false;
 
         /// <summary>
         /// LoxLiaison entry point.
@@ -48,6 +49,10 @@ namespace LoxLiaison
             if (HadError)
             {
                 Environment.Exit(65);
+            }
+            if (HadRuntimeError)
+            {
+                Environment.Exit(70);
             }
         }
 
@@ -122,6 +127,12 @@ namespace LoxLiaison
             {
                 Report(token.Line, $"at '{token.Lexeme}'", message);
             }
+        }
+
+        public static void RuntimeError(RuntimeException error)
+        {
+            Console.WriteLine($"{error.Message}\n[line {error.Token.Line}]");
+            HadRuntimeError = true;
         }
 
         /// <summary>
