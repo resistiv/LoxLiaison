@@ -9,9 +9,7 @@ namespace LoxLiaison
     /// </summary>
     public class Liaison
     {
-        /// <summary>
-        /// Whether the interpreter has encountered an error.
-        /// </summary>
+        private static readonly Interpreter interpreter = new();
         private static bool HadError = false;
         private static bool HadRuntimeError = false;
 
@@ -90,7 +88,7 @@ namespace LoxLiaison
                 Console.WriteLine(tokens[i]);
             }*/
 
-            Parser parser = new Parser(tokens);
+            Parser parser = new(tokens);
             Expr expression = parser.Parse();
 
             // Stop if we encountered a syntax error.
@@ -99,7 +97,7 @@ namespace LoxLiaison
                 return;
             }
 
-            Console.WriteLine(new AstPrinter().Print(expression));
+            interpreter.Interpret(expression);
         }
     
         /// <summary>
