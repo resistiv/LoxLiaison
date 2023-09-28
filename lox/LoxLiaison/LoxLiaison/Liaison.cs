@@ -22,7 +22,7 @@ namespace LoxLiaison
             if (args.Length > 1)
             {
                 Console.WriteLine("Usage: LoxLiaison [script]");
-                Environment.Exit(64);
+                System.Environment.Exit(64);
             }
             else if (args.Length == 1)
             {
@@ -46,11 +46,11 @@ namespace LoxLiaison
             // An error occurred, exit!
             if (HadError)
             {
-                Environment.Exit(65);
+                System.Environment.Exit(65);
             }
             if (HadRuntimeError)
             {
-                Environment.Exit(70);
+                System.Environment.Exit(70);
             }
         }
 
@@ -89,7 +89,7 @@ namespace LoxLiaison
             }*/
 
             Parser parser = new(tokens);
-            Expr expression = parser.Parse();
+            List<Stmt> statements = parser.Parse();
 
             // Stop if we encountered a syntax error.
             if (HadError)
@@ -97,7 +97,7 @@ namespace LoxLiaison
                 return;
             }
 
-            interpreter.Interpret(expression);
+            interpreter.Interpret(statements);
         }
     
         /// <summary>

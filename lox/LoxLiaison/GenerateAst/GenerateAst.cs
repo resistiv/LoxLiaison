@@ -14,10 +14,21 @@ namespace LoxLiaison.Tool
         /// </summary>
         private static readonly List<string> ExprList = new()
         {
+            "Assign : Token name, Expr value",
             "Binary : Expr left, Token @operator, Expr right",
             "Grouping : Expr expression",
             "Literal : object value",
-            "Unary : Token @operator, Expr right"
+            "Unary : Token @operator, Expr right",
+            "Variable : Token name"
+        };
+        /// <summary>
+        /// Holds all statements to be generated.
+        /// </summary>
+        private static readonly List<string> StmtList = new()
+        {
+            "Expression : Expr expr",
+            "Print : Expr expr",
+            "Var : Token name, Expr initializer"
         };
 
         /// <summary>
@@ -35,6 +46,7 @@ namespace LoxLiaison.Tool
             string outputDir = args[0];
 
             DefineAst(outputDir, "Expr", ExprList);
+            DefineAst(outputDir, "Stmt", StmtList);
         }
 
         /// <summary>

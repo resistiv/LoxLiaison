@@ -8,10 +8,29 @@ namespace LoxLiaison
 
         public interface IVisitor<T>
         {
+            public T VisitAssignExpr(Assign expr);
             public T VisitBinaryExpr(Binary expr);
             public T VisitGroupingExpr(Grouping expr);
             public T VisitLiteralExpr(Literal expr);
             public T VisitUnaryExpr(Unary expr);
+            public T VisitVariableExpr(Variable expr);
+        }
+
+        public class Assign : Expr
+        {
+            public readonly Token Name;
+            public readonly Expr Value;
+            
+            public Assign(Token name, Expr value)
+            {
+                this.Name = name;
+                this.Value = value;
+            }
+
+            public override T Accept<T>(IVisitor<T> visitor)
+            {
+                return visitor.VisitAssignExpr(this);
+            }
         }
 
         public class Binary : Expr
@@ -77,6 +96,21 @@ namespace LoxLiaison
             public override T Accept<T>(IVisitor<T> visitor)
             {
                 return visitor.VisitUnaryExpr(this);
+            }
+        }
+
+        public class Variable : Expr
+        {
+            public readonly Token Name;
+            
+            public Variable(Token name)
+            {
+                this.Name = name;
+            }
+
+            public override T Accept<T>(IVisitor<T> visitor)
+            {
+                return visitor.VisitVariableExpr(this);
             }
         }
     }

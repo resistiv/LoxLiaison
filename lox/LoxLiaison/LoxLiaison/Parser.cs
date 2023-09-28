@@ -25,17 +25,17 @@ namespace LoxLiaison
         /// <summary>
         /// Starts parsing this <see cref="Parser"/>'s <see cref="Token"/>s.
         /// </summary>
-        /// <returns>An <see cref="Expr"/> representing the parsed <see cref="Token"/>s.</returns>
-        public Expr Parse()
+        /// <returns>A <see cref="List{T}"/> of statements parsed from the <see cref="Token"/>s.</returns>
+        public List<Stmt> Parse()
         {
-            try
+            List<Stmt> statements = new();
+
+            while (!AtEnd())
             {
-                return Expression();
+                statements.Add(Declaration());
             }
-            catch (ParsingException)
-            {
-                return null;
-            }
+
+            return statements;
         }
 
         /// <summary>
@@ -44,7 +44,110 @@ namespace LoxLiaison
         /// <returns>An <see cref="Expr"/> representing the expression.</returns>
         private Expr Expression()
         {
-            return Equality();
+            return Assignment();
+        }
+
+        /// <summary>
+        /// Resolves a declaration.
+        /// </summary>
+        /// <returns>A <see cref="Stmt"/> representing the declaration.</returns>
+        private Stmt Declaration()
+        {
+            try
+            {
+                if (MatchToken(TokenType.Var))
+                {
+                    return VarDeclaration();
+                }
+                else
+                {
+                    return Statement();
+                }
+            }
+            catch (ParsingException)
+            {
+                SynchronizeState();
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Resolves a variable declaration.
+        /// </summary>
+        /// <returns>A <see cref="Stmt"/> representing the variable declaration.</returns>
+        private Stmt VarDeclaration()
+        {
+            Token name = ConsumeToken(TokenType.Identifier, "Expect variable name.");
+
+            Expr initializer = null;
+            if (MatchToken(TokenType.Equal))
+            {
+                initializer = Expression();
+            }
+
+            ConsumeToken(TokenType.Semicolon, "Expect ';' after variable declaration.");
+            return new Stmt.Var(name, initializer);
+        }
+
+        /// <summary>
+        /// Resolves a statement.
+        /// </summary>
+        /// <returns>A <see cref="Stmt"/> representing the statement.</returns>
+        private Stmt Statement()
+        {
+            if (MatchToken(TokenType.Print))
+            {
+                return PrintStatement();
+            }
+
+            return ExpressionStatement();
+        }
+
+        /// <summary>
+        /// Resolves a print statement.
+        /// </summary>
+        /// <returns>A <see cref="Stmt"/> representing the print statement.</returns>
+        private Stmt PrintStatement()
+        {
+            Expr value = Expression();
+            ConsumeToken(TokenType.Semicolon, "Expect ';' after value.");
+            return new Stmt.Print(value);
+        }
+
+        /// <summary>
+        /// Resolves an expression statement.
+        /// </summary>
+        /// <returns>A <see cref="Stmt"/> representing the expression statement.</returns>
+        private Stmt ExpressionStatement()
+        {
+            Expr expr = Expression();
+            ConsumeToken(TokenType.Semicolon, "Expect ';' after expression.");
+            return new Stmt.Expression(expr);
+        }
+
+        /// <summary>
+        /// Resolves an assignment statement.
+        /// </summary>
+        /// <returns>An <see cref="Expr"/> representing the assignment statement.</returns>
+        private Expr Assignment()
+        {
+            Expr expr = Equality();
+
+            if (MatchToken(TokenType.Equal))
+            {
+                Token equals = PreviousToken();
+                Expr value = Assignment();
+
+                if (expr is Expr.Variable)
+                {
+                    Token name = ((Expr.Variable)expr).Name;
+                    return new Expr.Assign(name, value);
+                }
+
+                Error(equals, "Invalid assignment target.");
+            }
+
+            return expr;
         }
 
         /// <summary>
@@ -157,6 +260,11 @@ namespace LoxLiaison
             if (MatchToken(TokenType.Number, TokenType.String))
             {
                 return new Expr.Literal(PreviousToken().Literal);
+            }
+
+            if (MatchToken(TokenType.Identifier))
+            {
+                return new Expr.Variable(PreviousToken());
             }
 
             if (MatchToken(TokenType.LeftParentheses))

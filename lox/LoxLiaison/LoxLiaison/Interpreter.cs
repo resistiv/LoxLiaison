@@ -1,15 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace LoxLiaison
 {
-    public class Interpreter : Expr.IVisitor<object>
+    public class Interpreter : Expr.IVisitor<object>, Stmt.IVisitor<object>
     {
-        public void Interpret(Expr expression)
+        private Environment environment = new();
+
+        public void Interpret(List<Stmt> statements)
         {
             try
             {
-                object value = Evaluate(expression);
-                Console.WriteLine(Stringify(value));
+                for (int i = 0; i < statements.Count; i++)
+                {
+                    Execute(statements[0]);
+                }
             }
             catch (RuntimeException e)
             {
@@ -17,7 +22,7 @@ namespace LoxLiaison
             }
         }
 
-        private string Stringify(object obj)
+        private static string Stringify(object obj)
         {
             if (obj == null)
             {
@@ -35,6 +40,13 @@ namespace LoxLiaison
             }
 
             return obj.ToString();
+        }
+
+        public object VisitAssignExpr(Expr.Assign expr)
+        {
+            object value = Evaluate(expr.Value);
+            environment.Assign(expr.Name, value);
+            return value;
         }
 
         public object VisitBinaryExpr(Expr.Binary expr)
@@ -110,6 +122,36 @@ namespace LoxLiaison
             return null;
         }
 
+        public object VisitVariableExpr(Expr.Variable expr)
+        {
+            return environment.Get(expr.Name);
+        }
+
+        public object VisitExpressionStmt(Stmt.Expression stmt)
+        {
+            Evaluate(stmt.Expr);
+            return null;
+        }
+
+        public object VisitPrintStmt(Stmt.Print stmt)
+        {
+            object value = Evaluate(stmt.Expr);
+            Console.WriteLine(Stringify(value));
+            return null;
+        }
+
+        public object VisitVarStmt(Stmt.Var stmt)
+        {
+            object value = null;
+            if (stmt.Initializer != null)
+            {
+                value = Evaluate(stmt.Initializer);
+            }
+
+            environment.Define(stmt.Name.Lexeme, value);
+            return null;
+        }
+
         /// <summary>
         /// Checks the operand of an unary expression.
         /// </summary>
@@ -155,6 +197,15 @@ namespace LoxLiaison
         private object Evaluate(Expr expr)
         {
             return expr.Accept(this);
+        }
+
+        /// <summary>
+        /// Executes a statement.
+        /// </summary>
+        /// <param name="stmt">A <see cref="Stmt"/> to execute.</param>
+        private void Execute(Stmt stmt)
+        {
+            stmt.Accept(this);
         }
 
         /// <summary>
