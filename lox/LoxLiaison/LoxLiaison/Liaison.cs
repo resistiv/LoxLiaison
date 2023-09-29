@@ -141,7 +141,8 @@ namespace LoxLiaison
         /// <param name="message">A message.</param>
         private static void Report(int line, string where, string message)
         {
-            Console.WriteLine($"[Line {line}] Error in {where}: {message}");
+            Console.WriteLine($"[line {line}] Error in {where}: {message}");
+            HadError = true;
         }
     }
 }
