@@ -5,7 +5,7 @@ using System.IO;
 namespace LoxLiaison
 {
     /// <summary>
-    /// Main entry and utility class.
+    /// Main utility class.
     /// </summary>
     public class Liaison
     {
@@ -14,31 +14,10 @@ namespace LoxLiaison
         private static bool HadRuntimeError = false;
 
         /// <summary>
-        /// LoxLiaison entry point.
-        /// </summary>
-        /// <param name="args">Optionally, a script for LL to run.</param>
-        public static void Main(string[] args)
-        {
-            if (args.Length > 1)
-            {
-                Console.WriteLine("Usage: LoxLiaison [script]");
-                System.Environment.Exit(64);
-            }
-            else if (args.Length == 1)
-            {
-                RunFile(args[0]);
-            }
-            else
-            {
-                RunPrompt();
-            }
-        }
-
-        /// <summary>
         /// Runs a Lox file.
         /// </summary>
         /// <param name="path">A path to a Lox file.</param>
-        private static void RunFile(string path)
+        public static void RunFile(string path)
         {
             string fileContents = File.ReadAllText(path);
             Run(fileContents);
@@ -57,7 +36,7 @@ namespace LoxLiaison
         /// <summary>
         /// Runs LL as a REPL prompt.
         /// </summary>
-        private static void RunPrompt()
+        public static void RunPrompt()
         {
             while (true)
             {
