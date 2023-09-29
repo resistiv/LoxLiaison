@@ -99,6 +99,10 @@ namespace LoxLiaison
             {
                 return PrintStatement();
             }
+            if (MatchToken(TokenType.LeftBrace))
+            {
+                return new Stmt.Block(Block());
+            }
 
             return ExpressionStatement();
         }
@@ -126,6 +130,23 @@ namespace LoxLiaison
         }
 
         /// <summary>
+        /// Resolves a block of code.
+        /// </summary>
+        /// <returns>A <see cref="List{T}"/> of <see cref="Stmt"/>s contained within the block.</returns>
+        private List<Stmt> Block()
+        {
+            List<Stmt> statements = new();
+
+            while (!CheckToken(TokenType.RightBrace) && !AtEnd())
+            {
+                statements.Add(Declaration());
+            }
+
+            ConsumeToken(TokenType.RightBrace, "Expect '}' after block.");
+            return statements;
+        }
+
+        /// <summary>
         /// Resolves an assignment statement.
         /// </summary>
         /// <returns>An <see cref="Expr"/> representing the assignment statement.</returns>
@@ -138,9 +159,9 @@ namespace LoxLiaison
                 Token equals = PreviousToken();
                 Expr value = Assignment();
 
-                if (expr is Expr.Variable)
+                if (expr is Expr.Variable v)
                 {
-                    Token name = ((Expr.Variable)expr).Name;
+                    Token name = v.Name;
                     return new Expr.Assign(name, value);
                 }
 

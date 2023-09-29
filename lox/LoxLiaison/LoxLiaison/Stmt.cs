@@ -8,9 +8,25 @@ namespace LoxLiaison
 
         public interface IVisitor<T>
         {
+            public T VisitBlockStmt(Block stmt);
             public T VisitExpressionStmt(Expression stmt);
             public T VisitPrintStmt(Print stmt);
             public T VisitVarStmt(Var stmt);
+        }
+
+        public class Block : Stmt
+        {
+            public readonly System.Collections.Generic.List<Stmt> Statements;
+            
+            public Block(System.Collections.Generic.List<Stmt> statements)
+            {
+                this.Statements = statements;
+            }
+
+            public override T Accept<T>(IVisitor<T> visitor)
+            {
+                return visitor.VisitBlockStmt(this);
+            }
         }
 
         public class Expression : Stmt

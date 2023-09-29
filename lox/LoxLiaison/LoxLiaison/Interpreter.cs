@@ -13,7 +13,7 @@ namespace LoxLiaison
             {
                 for (int i = 0; i < statements.Count; i++)
                 {
-                    Execute(statements[0]);
+                    Execute(statements[i]);
                 }
             }
             catch (RuntimeException e)
@@ -152,13 +152,19 @@ namespace LoxLiaison
             return null;
         }
 
+        public object VisitBlockStmt(Stmt.Block stmt)
+        {
+            ExecuteBlock(stmt.Statements, new Environment(environment));
+            return null;
+        }
+
         /// <summary>
         /// Checks the operand of an unary expression.
         /// </summary>
         /// <param name="operator">The operator to apply to the operand.</param>
         /// <param name="operand">The operand in question.</param>
         /// <exception cref="RuntimeException">Thrown when the operand is not a <see cref="double"/>.</exception>
-        private void CheckNumberOperand(Token @operator, object operand)
+        private static void CheckNumberOperand(Token @operator, object operand)
         {
             if (operand is double)
             {
@@ -177,7 +183,7 @@ namespace LoxLiaison
         /// <param name="left">The left operand.</param>
         /// <param name="right">The right operand.</param>
         /// <exception cref="RuntimeException">Thrown when either operand is not a <see cref="double"/>.</exception>
-        private void CheckNumberOperands(Token @operator, object left, object right)
+        private static void CheckNumberOperands(Token @operator, object left, object right)
         {
             if (left is double && right is double)
             {
@@ -208,13 +214,31 @@ namespace LoxLiaison
             stmt.Accept(this);
         }
 
+        private void ExecuteBlock(List<Stmt> statements, Environment environment)
+        {
+            Environment previous = this.environment;
+            try
+            {
+                this.environment = environment;
+
+                for (int i = 0; i < statements.Count; i++)
+                {
+                    Execute(statements[i]);
+                }
+            }
+            finally
+            {
+                this.environment = previous;
+            }
+        }
+
         /// <summary>
         /// Determines if two <see cref="object"/>s are equal.
         /// </summary>
         /// <param name="a">An <see cref="object"/> to compare.</param>
         /// <param name="b">Another <see cref="object"/> to compare.</param>
         /// <returns>Whether or not the <see cref="object"/>s are equal.</returns>
-        private bool IsEqual(object a, object b)
+        private static bool IsEqual(object a, object b)
         {
             if (a == null && b == null)
             {

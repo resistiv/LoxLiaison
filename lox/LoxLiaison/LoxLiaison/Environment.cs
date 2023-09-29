@@ -42,6 +42,7 @@ namespace LoxLiaison
             if (_values.ContainsKey(name.Lexeme))
             {
                 _values[name.Lexeme] = value;
+                return;
             }
 
             if (Enclosing != null)
