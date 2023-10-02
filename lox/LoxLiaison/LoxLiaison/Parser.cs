@@ -95,6 +95,10 @@ namespace LoxLiaison
         /// <returns>A <see cref="Stmt"/> representing the statement.</returns>
         private Stmt Statement()
         {
+            if (MatchToken(TokenType.For))
+            {
+                return ForStatement();
+            }
             if (MatchToken(TokenType.If))
             {
                 return IfStatement();
@@ -103,12 +107,94 @@ namespace LoxLiaison
             {
                 return PrintStatement();
             }
+            if (MatchToken(TokenType.While))
+            {
+                return WhileStatement();
+            }
             if (MatchToken(TokenType.LeftBrace))
             {
                 return new Stmt.Block(Block());
             }
 
             return ExpressionStatement();
+        }
+
+        /// <summary>
+        /// Resolves a while statement.
+        /// </summary>
+        /// <returns>A <see cref="Stmt"/> representing the while statement.</returns>
+        private Stmt WhileStatement()
+        {
+            ConsumeToken(TokenType.LeftParentheses, "Expect '(' after 'while'.");
+            Expr condition = Expression();
+            ConsumeToken(TokenType.RightParentheses, "Expect ')' after condition.");
+            Stmt body = Statement();
+
+            return new Stmt.While(condition, body);
+        }
+
+        /// <summary>
+        /// Resolves a for statement.
+        /// </summary>
+        /// <returns>A <see cref="Stmt"/> representing the for statement.</returns>
+        private Stmt ForStatement()
+        {
+            ConsumeToken(TokenType.LeftParentheses, "Expect '(' after 'for'.");
+
+            Stmt initializer;
+            if (MatchToken(TokenType.Semicolon))
+            {
+                initializer = null;
+            }
+            else if (MatchToken(TokenType.Var))
+            {
+                initializer = VarDeclaration();
+            }
+            else
+            {
+                initializer = ExpressionStatement();
+            }
+
+            Expr condition = null;
+            if (!CheckToken(TokenType.Semicolon))
+            {
+                condition = Expression();
+            }
+            ConsumeToken(TokenType.Semicolon, "Expect ';' after loop condition.");
+
+            Expr increment = null;
+            if (!CheckToken(TokenType.RightParentheses))
+            {
+                increment = Expression();
+            }
+            ConsumeToken(TokenType.RightParentheses, "Expect ')' after for clauses.");
+
+            Stmt body = Statement();
+
+            if (increment != null)
+            {
+                List<Stmt> statements = new()
+                {
+                    body,
+                    new Stmt.Expression(increment)
+                };
+                body = new Stmt.Block(statements);
+            }
+
+            condition ??= new Expr.Literal(true);
+            body = new Stmt.While(condition, body);
+
+            if (initializer != null)
+            {
+                List<Stmt> statements = new()
+                {
+                    initializer,
+                    body
+                };
+                body = new Stmt.Block(statements);
+            }
+
+            return body;
         }
 
         /// <summary>

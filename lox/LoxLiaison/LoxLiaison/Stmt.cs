@@ -13,6 +13,7 @@ namespace LoxLiaison
             public T VisitIfStmt(If stmt);
             public T VisitPrintStmt(Print stmt);
             public T VisitVarStmt(Var stmt);
+            public T VisitWhileStmt(While stmt);
         }
 
         public class Block : Stmt
@@ -93,6 +94,23 @@ namespace LoxLiaison
             public override T Accept<T>(IVisitor<T> visitor)
             {
                 return visitor.VisitVarStmt(this);
+            }
+        }
+
+        public class While : Stmt
+        {
+            public readonly Expr Condition;
+            public readonly Stmt Body;
+            
+            public While(Expr condition, Stmt body)
+            {
+                this.Condition = condition;
+                this.Body = body;
+            }
+
+            public override T Accept<T>(IVisitor<T> visitor)
+            {
+                return visitor.VisitWhileStmt(this);
             }
         }
     }

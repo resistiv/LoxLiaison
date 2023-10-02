@@ -110,6 +110,28 @@ namespace LoxLiaison
             return expr.Value;
         }
 
+        public object VisitLogicalExpr(Expr.Logical expr)
+        {
+            object left = Evaluate(expr.Left);
+
+            if (expr.Operator.Type == TokenType.Or)
+            {
+                if (IsTruthy(left))
+                {
+                    return left;
+                }
+            }
+            else
+            {
+                if (!IsTruthy(left))
+                {
+                    return left;
+                }
+            }
+
+            return Evaluate(expr.Right);
+        }
+
         public object VisitUnaryExpr(Expr.Unary expr)
         {
             object right = Evaluate(expr.Right);
@@ -166,6 +188,15 @@ namespace LoxLiaison
             }
 
             environment.Define(stmt.Name.Lexeme, value);
+            return null;
+        }
+
+        public object VisitWhileStmt(Stmt.While stmt)
+        {
+            while (IsTruthy(Evaluate(stmt.Condition)))
+            {
+                Execute(stmt.Body);
+            }
             return null;
         }
 
