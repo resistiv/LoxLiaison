@@ -12,6 +12,7 @@ namespace LoxLiaison
             public T VisitBinaryExpr(Binary expr);
             public T VisitGroupingExpr(Grouping expr);
             public T VisitLiteralExpr(Literal expr);
+            public T VisitLogicalExpr(Logical expr);
             public T VisitUnaryExpr(Unary expr);
             public T VisitVariableExpr(Variable expr);
         }
@@ -79,6 +80,25 @@ namespace LoxLiaison
             public override T Accept<T>(IVisitor<T> visitor)
             {
                 return visitor.VisitLiteralExpr(this);
+            }
+        }
+
+        public class Logical : Expr
+        {
+            public readonly Expr Left;
+            public readonly Token Operator;
+            public readonly Expr Right;
+            
+            public Logical(Expr left, Token @operator, Expr right)
+            {
+                this.Left = left;
+                this.Operator = @operator;
+                this.Right = right;
+            }
+
+            public override T Accept<T>(IVisitor<T> visitor)
+            {
+                return visitor.VisitLogicalExpr(this);
             }
         }
 

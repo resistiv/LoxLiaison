@@ -10,6 +10,7 @@ namespace LoxLiaison
         {
             public T VisitBlockStmt(Block stmt);
             public T VisitExpressionStmt(Expression stmt);
+            public T VisitIfStmt(If stmt);
             public T VisitPrintStmt(Print stmt);
             public T VisitVarStmt(Var stmt);
         }
@@ -41,6 +42,25 @@ namespace LoxLiaison
             public override T Accept<T>(IVisitor<T> visitor)
             {
                 return visitor.VisitExpressionStmt(this);
+            }
+        }
+
+        public class If : Stmt
+        {
+            public readonly Expr Condition;
+            public readonly Stmt ThenBranch;
+            public readonly Stmt ElseBranch;
+            
+            public If(Expr condition, Stmt thenBranch, Stmt elseBranch)
+            {
+                this.Condition = condition;
+                this.ThenBranch = thenBranch;
+                this.ElseBranch = elseBranch;
+            }
+
+            public override T Accept<T>(IVisitor<T> visitor)
+            {
+                return visitor.VisitIfStmt(this);
             }
         }
 

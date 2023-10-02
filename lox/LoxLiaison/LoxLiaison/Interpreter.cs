@@ -7,6 +7,10 @@ namespace LoxLiaison
     {
         private Environment environment = new();
 
+        /// <summary>
+        /// Interprets a <see cref="List{T}"/> of <see cref="Stmt"/>s.
+        /// </summary>
+        /// <param name="statements"></param>
         public void Interpret(List<Stmt> statements)
         {
             try
@@ -130,6 +134,19 @@ namespace LoxLiaison
         public object VisitExpressionStmt(Stmt.Expression stmt)
         {
             Evaluate(stmt.Expr);
+            return null;
+        }
+
+        public object VisitIfStmt(Stmt.If stmt)
+        {
+            if (IsTruthy(Evaluate(stmt.Condition)))
+            {
+                Execute(stmt.ThenBranch);
+            }
+            else if (stmt.ElseBranch != null)
+            {
+                Execute(stmt.ElseBranch);
+            }
             return null;
         }
 

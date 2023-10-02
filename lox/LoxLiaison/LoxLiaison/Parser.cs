@@ -95,6 +95,10 @@ namespace LoxLiaison
         /// <returns>A <see cref="Stmt"/> representing the statement.</returns>
         private Stmt Statement()
         {
+            if (MatchToken(TokenType.If))
+            {
+                return IfStatement();
+            }
             if (MatchToken(TokenType.Print))
             {
                 return PrintStatement();
@@ -105,6 +109,26 @@ namespace LoxLiaison
             }
 
             return ExpressionStatement();
+        }
+
+        /// <summary>
+        /// Resolves an if statment.
+        /// </summary>
+        /// <returns>A <see cref="Stmt"/> representing the if statement.</returns>
+        private Stmt IfStatement()
+        {
+            ConsumeToken(TokenType.LeftParentheses, "Expect '(' after 'if'.");
+            Expr condition = Expression();
+            ConsumeToken(TokenType.RightParentheses, "Expect ')' after if condition.");
+
+            Stmt thenBranch = Statement();
+            Stmt elseBranch = null;
+            if (MatchToken(TokenType.Else))
+            {
+                elseBranch = Statement();
+            }
+
+            return new Stmt.If(condition, thenBranch, elseBranch);
         }
 
         /// <summary>
@@ -152,7 +176,7 @@ namespace LoxLiaison
         /// <returns>An <see cref="Expr"/> representing the assignment statement.</returns>
         private Expr Assignment()
         {
-            Expr expr = Equality();
+            Expr expr = Or();
 
             if (MatchToken(TokenType.Equal))
             {
@@ -166,6 +190,42 @@ namespace LoxLiaison
                 }
 
                 Error(equals, "Invalid assignment target.");
+            }
+
+            return expr;
+        }
+
+        /// <summary>
+        /// Resolves an or expression.
+        /// </summary>
+        /// <returns>An <see cref="Expr"/> representing the or expression.</returns>
+        private Expr Or()
+        {
+            Expr expr = And();
+
+            while (MatchToken(TokenType.Or))
+            {
+                Token @operator = PreviousToken();
+                Expr right = And();
+                expr = new Expr.Logical(expr, @operator, right);
+            }
+
+            return expr;
+        }
+
+        /// <summary>
+        /// Resolves an and expression.
+        /// </summary>
+        /// <returns>An <see cref="Expr"/> representing the and expression.</returns>
+        private Expr And()
+        {
+            Expr expr = Equality();
+
+            while (MatchToken(TokenType.And))
+            {
+                Token @operator = PreviousToken();
+                Expr right = Equality();
+                expr = new Expr.Logical(expr, @operator, right);
             }
 
             return expr;
