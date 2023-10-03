@@ -10,6 +10,7 @@ namespace LoxLiaison
         {
             public T VisitBlockStmt(Block stmt);
             public T VisitExpressionStmt(Expression stmt);
+            public T VisitFunctionStmt(Function stmt);
             public T VisitIfStmt(If stmt);
             public T VisitPrintStmt(Print stmt);
             public T VisitVarStmt(Var stmt);
@@ -43,6 +44,25 @@ namespace LoxLiaison
             public override T Accept<T>(IVisitor<T> visitor)
             {
                 return visitor.VisitExpressionStmt(this);
+            }
+        }
+
+        public class Function : Stmt
+        {
+            public readonly Token Name;
+            public readonly System.Collections.Generic.List<Token> Params;
+            public readonly System.Collections.Generic.List<Stmt> Body;
+            
+            public Function(Token name, System.Collections.Generic.List<Token> @params, System.Collections.Generic.List<Stmt> body)
+            {
+                this.Name = name;
+                this.Params = @params;
+                this.Body = body;
+            }
+
+            public override T Accept<T>(IVisitor<T> visitor)
+            {
+                return visitor.VisitFunctionStmt(this);
             }
         }
 

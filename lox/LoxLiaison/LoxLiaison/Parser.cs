@@ -55,6 +55,10 @@ namespace LoxLiaison
         {
             try
             {
+                if (MatchToken(TokenType.Fun))
+                {
+                    return Function("function");
+                }
                 if (MatchToken(TokenType.Var))
                 {
                     return VarDeclaration();
@@ -69,6 +73,35 @@ namespace LoxLiaison
                 SynchronizeState();
                 return null;
             }
+        }
+        
+        /// <summary>
+        /// Resolves a function declaration.
+        /// </summary>
+        /// <param name="kind">The kind of function declaration, such as function or method.</param>
+        /// <returns>A <see cref="Stmt.Function"/> representing the function.</returns>
+        private Stmt.Function Function(string kind)
+        {
+            Token name = ConsumeToken(TokenType.Identifier, $"Expect {kind} name.");
+            ConsumeToken(TokenType.LeftParentheses, $"Expect '(' after {kind} name.");
+            List<Token> parameters = new();
+            if (!CheckToken(TokenType.RightParentheses))
+            {
+                do
+                {
+                    if (parameters.Count >= 255)
+                    {
+                        Error(Peek(), "Can't have more than 255 parameters.");
+                    }
+                    parameters.Add(ConsumeToken(TokenType.Identifier, "Expect parameter name."));
+                }
+                while (MatchToken(TokenType.Comma));
+            }
+            ConsumeToken(TokenType.RightParentheses, "Expect ')' after parameters.");
+
+            ConsumeToken(TokenType.LeftBrace, $"Expect '{{' before {kind} body.");
+            List<Stmt> body = Block();
+            return new Stmt.Function(name, parameters, body);
         }
 
         /// <summary>
@@ -106,6 +139,10 @@ namespace LoxLiaison
             if (MatchToken(TokenType.Print))
             {
                 return PrintStatement();
+            }
+            if (MatchToken(TokenType.Return))
+            {
+                return ReturnStatement();
             }
             if (MatchToken(TokenType.While))
             {
@@ -402,7 +439,51 @@ namespace LoxLiaison
                 return new Expr.Unary(@operator, right);
             }
 
-            return Primary();
+            return Call();
+        }
+
+        /// <summary>
+        /// Resolves a call expression.
+        /// </summary>
+        /// <returns>An <see cref="Expr"/> representing the call expression.</returns>
+        private Expr Call()
+        {
+            Expr expr = Primary();
+
+            while (true)
+            {
+                if (MatchToken(TokenType.LeftParentheses))
+                {
+                    expr = FinishCall(expr);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return expr;
+        }
+
+        private Expr FinishCall(Expr callee)
+        {
+            List<Expr> arguments = new();
+            if (!CheckToken(TokenType.RightParentheses))
+            {
+                do
+                {
+                    if (arguments.Count >= 255)
+                    {
+                        Error(Peek(), "Can't have more than 255 arguments.");
+                    }
+                    arguments.Add(Expression());
+                }
+                while (MatchToken(TokenType.Comma));
+            }
+
+            Token paren = ConsumeToken(TokenType.RightParentheses, "Expect ')' after arguments.");
+
+            return new Expr.Call(callee, paren, arguments);
         }
 
         /// <summary>

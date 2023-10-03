@@ -1,11 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using LoxLiaison.Functions;
 
 namespace LoxLiaison
 {
     public class Interpreter : Expr.IVisitor<object>, Stmt.IVisitor<object>
     {
-        private Environment environment = new();
+        public readonly Environment Globals = new();
+        private Environment _environment;
+
+        public Interpreter()
+        {
+            _environment = Globals;
+
+            Globals.Define("clock", new Functions.Native.Clock());
+        }
 
         /// <summary>
         /// Interprets a <see cref="List{T}"/> of <see cref="Stmt"/>s.
@@ -49,7 +58,7 @@ namespace LoxLiaison
         public object VisitAssignExpr(Expr.Assign expr)
         {
             object value = Evaluate(expr.Value);
-            environment.Assign(expr.Name, value);
+            _environment.Assign(expr.Name, value);
             return value;
         }
 
@@ -98,6 +107,30 @@ namespace LoxLiaison
             }
 
             return null;
+        }
+
+        public object VisitCallExpr(Expr.Call expr)
+        {
+            object callee = Evaluate(expr.Callee);
+
+            List<object> arguments = new();
+            for (int i = 0; i < expr.Arguments.Count; i++)
+            {
+                arguments.Add(Evaluate(expr.Arguments[i]));
+            }
+
+            if (callee is not ILoxCallable)
+            {
+                throw new RuntimeException(expr.Paren, "Can only call functions and classes.");
+            }
+
+            ILoxCallable function = (ILoxCallable)callee;
+            if (arguments.Count != function.Arity())
+            {
+                throw new RuntimeException(expr.Paren, $"Expected {function.Arity()} arguments but got {arguments.Count}.");
+            }
+
+            return function.Call(this, arguments);
         }
 
         public object VisitGroupingExpr(Expr.Grouping expr)
@@ -150,12 +183,19 @@ namespace LoxLiaison
 
         public object VisitVariableExpr(Expr.Variable expr)
         {
-            return environment.Get(expr.Name);
+            return _environment.Get(expr.Name);
         }
 
         public object VisitExpressionStmt(Stmt.Expression stmt)
         {
             Evaluate(stmt.Expr);
+            return null;
+        }
+
+        public object VisitFunctionStmt(Stmt.Function stmt)
+        {
+            LoxFunction function = new(stmt);
+            _environment.Define(stmt.Name.Lexeme, function);
             return null;
         }
 
@@ -187,7 +227,7 @@ namespace LoxLiaison
                 value = Evaluate(stmt.Initializer);
             }
 
-            environment.Define(stmt.Name.Lexeme, value);
+            _environment.Define(stmt.Name.Lexeme, value);
             return null;
         }
 
@@ -202,7 +242,7 @@ namespace LoxLiaison
 
         public object VisitBlockStmt(Stmt.Block stmt)
         {
-            ExecuteBlock(stmt.Statements, new Environment(environment));
+            ExecuteBlock(stmt.Statements, new Environment(_environment));
             return null;
         }
 
@@ -262,12 +302,12 @@ namespace LoxLiaison
             stmt.Accept(this);
         }
 
-        private void ExecuteBlock(List<Stmt> statements, Environment environment)
+        public void ExecuteBlock(List<Stmt> statements, Environment environment)
         {
-            Environment previous = this.environment;
+            Environment previous = this._environment;
             try
             {
-                this.environment = environment;
+                this._environment = environment;
 
                 for (int i = 0; i < statements.Count; i++)
                 {
@@ -276,7 +316,7 @@ namespace LoxLiaison
             }
             finally
             {
-                this.environment = previous;
+                this._environment = previous;
             }
         }
 

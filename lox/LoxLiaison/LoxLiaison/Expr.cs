@@ -10,6 +10,7 @@ namespace LoxLiaison
         {
             public T VisitAssignExpr(Assign expr);
             public T VisitBinaryExpr(Binary expr);
+            public T VisitCallExpr(Call expr);
             public T VisitGroupingExpr(Grouping expr);
             public T VisitLiteralExpr(Literal expr);
             public T VisitLogicalExpr(Logical expr);
@@ -50,6 +51,25 @@ namespace LoxLiaison
             public override T Accept<T>(IVisitor<T> visitor)
             {
                 return visitor.VisitBinaryExpr(this);
+            }
+        }
+
+        public class Call : Expr
+        {
+            public readonly Expr Callee;
+            public readonly Token Paren;
+            public readonly System.Collections.Generic.List<Expr> Arguments;
+            
+            public Call(Expr callee, Token paren, System.Collections.Generic.List<Expr> arguments)
+            {
+                this.Callee = callee;
+                this.Paren = paren;
+                this.Arguments = arguments;
+            }
+
+            public override T Accept<T>(IVisitor<T> visitor)
+            {
+                return visitor.VisitCallExpr(this);
             }
         }
 
