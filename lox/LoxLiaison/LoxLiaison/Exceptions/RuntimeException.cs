@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LoxLiaison
+namespace LoxLiaison.Exceptions
 {
     public class RuntimeException : Exception
     {
@@ -9,7 +9,7 @@ namespace LoxLiaison
         public RuntimeException(Token token, string message)
             : base(message)
         {
-           Token = token;
+            Token = token;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using LoxLiaison.Exceptions;
 using LoxLiaison.Functions;
 
 namespace LoxLiaison
@@ -194,7 +195,7 @@ namespace LoxLiaison
 
         public object VisitFunctionStmt(Stmt.Function stmt)
         {
-            LoxFunction function = new(stmt);
+            LoxFunction function = new(stmt, _environment);
             _environment.Define(stmt.Name.Lexeme, function);
             return null;
         }
@@ -217,6 +218,17 @@ namespace LoxLiaison
             object value = Evaluate(stmt.Expr);
             Console.WriteLine(Stringify(value));
             return null;
+        }
+
+        public object VisitReturnStmt(Stmt.Return stmt)
+        {
+            object value = null;
+            if (stmt.Value != null)
+            {
+                value = Evaluate(stmt.Value);
+            }
+
+            throw new ReturnException(value);
         }
 
         public object VisitVarStmt(Stmt.Var stmt)

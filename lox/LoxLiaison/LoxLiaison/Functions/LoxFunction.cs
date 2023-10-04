@@ -1,18 +1,17 @@
-﻿using System;
+﻿using LoxLiaison.Exceptions;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LoxLiaison.Functions
 {
     public class LoxFunction : ILoxCallable
     {
         private readonly Stmt.Function _declaration;
+        private readonly Environment _closure;
 
-        public LoxFunction(Stmt.Function declaration)
+        public LoxFunction(Stmt.Function declaration, Environment closure)
         {
             _declaration = declaration;
+            _closure = closure;
         }
 
         public int Arity()
@@ -22,13 +21,21 @@ namespace LoxLiaison.Functions
 
         public object Call(Interpreter interpreter, List<object> arguments)
         {
-            Environment env = new(interpreter.Globals);
+            Environment env = new(_closure);
             for (int i = 0; i < _declaration.Params.Count; i++)
             {
                 env.Define(_declaration.Params[i].Lexeme, arguments[i]);
             }
 
-            interpreter.ExecuteBlock(_declaration.Body, env);
+            try
+            {
+                interpreter.ExecuteBlock(_declaration.Body, env);
+            }
+            catch (ReturnException r)
+            {
+                return r.Value;
+            }
+
             return null;
         }
 

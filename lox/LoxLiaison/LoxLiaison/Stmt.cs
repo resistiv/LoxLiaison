@@ -13,6 +13,7 @@ namespace LoxLiaison
             public T VisitFunctionStmt(Function stmt);
             public T VisitIfStmt(If stmt);
             public T VisitPrintStmt(Print stmt);
+            public T VisitReturnStmt(Return stmt);
             public T VisitVarStmt(Var stmt);
             public T VisitWhileStmt(While stmt);
         }
@@ -97,6 +98,23 @@ namespace LoxLiaison
             public override T Accept<T>(IVisitor<T> visitor)
             {
                 return visitor.VisitPrintStmt(this);
+            }
+        }
+
+        public class Return : Stmt
+        {
+            public readonly Token Keyword;
+            public readonly Expr Value;
+            
+            public Return(Token keyword, Expr value)
+            {
+                this.Keyword = keyword;
+                this.Value = value;
+            }
+
+            public override T Accept<T>(IVisitor<T> visitor)
+            {
+                return visitor.VisitReturnStmt(this);
             }
         }
 

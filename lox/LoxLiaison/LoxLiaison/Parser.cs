@@ -265,6 +265,19 @@ namespace LoxLiaison
             return new Stmt.Print(value);
         }
 
+        private Stmt ReturnStatement()
+        {
+            Token keyword = PreviousToken();
+            Expr value = null;
+            if (!CheckToken(TokenType.Semicolon))
+            {
+                value = Expression();
+            }
+
+            ConsumeToken(TokenType.Semicolon, "Expect ';' after return value.");
+            return new Stmt.Return(keyword, value);
+        }
+
         /// <summary>
         /// Resolves an expression statement.
         /// </summary>

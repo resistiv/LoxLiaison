@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using LoxLiaison.Exceptions;
+using System.Collections.Generic;
 
 namespace LoxLiaison
 {
