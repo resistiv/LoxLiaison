@@ -1,15 +1,14 @@
-﻿using System;
+﻿using LoxLiaison.Data;
+using LoxLiaison.Exceptions;
 using System.Collections.Generic;
 
-namespace LoxLiaison
+namespace LoxLiaison.Utils
 {
     /// <summary>
     /// Handles parsing of <see cref="Token"/>s.
     /// </summary>
     public class Parser
     {
-        private class ParsingException : Exception { }
-
         private readonly List<Token> _tokens;
         private int _current = 0;
 
@@ -74,7 +73,7 @@ namespace LoxLiaison
                 return null;
             }
         }
-        
+
         /// <summary>
         /// Resolves a function declaration.
         /// </summary>
@@ -265,6 +264,10 @@ namespace LoxLiaison
             return new Stmt.Print(value);
         }
 
+        /// <summary>
+        /// Resolves a return statement.
+        /// </summary>
+        /// <returns>A <see cref="Stmt"/> representing the return statement.</returns>
         private Stmt ReturnStatement()
         {
             Token keyword = PreviousToken();
@@ -478,6 +481,11 @@ namespace LoxLiaison
             return expr;
         }
 
+        /// <summary>
+        /// Finishes a call expression.
+        /// </summary>
+        /// <param name="callee">The expression being called.</param>
+        /// <returns>An <see cref="Expr"/> representing the call expression.</returns>
         private Expr FinishCall(Expr callee)
         {
             List<Expr> arguments = new();
@@ -633,12 +641,12 @@ namespace LoxLiaison
         /// <param name="token">A <see cref="Token"/> that caused the error.</param>
         /// <param name="message">A message detailing the error.</param>
         /// <returns>A <see cref="ParsingException"/>.</returns>
-        private ParsingException Error(Token token, string message)
+        private static ParsingException Error(Token token, string message)
         {
             Liaison.Error(token, message);
             return new ParsingException();
         }
-    
+
         /// <summary>
         /// Attempts to synchronize the state of the parser after encountering a <see cref="ParsingException"/>.
         /// </summary>

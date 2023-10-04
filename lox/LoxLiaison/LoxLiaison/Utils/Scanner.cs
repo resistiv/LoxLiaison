@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using LoxLiaison.Data;
 
-namespace LoxLiaison
+namespace LoxLiaison.Utils
 {
     /// <summary>
-    /// Provides utilities for parsing raw Lox code.
+    /// Provides utilities for scanning raw Lox code.
     /// </summary>
     public class Scanner
     {
@@ -66,7 +67,7 @@ namespace LoxLiaison
         {
             return _currentIndex >= _source.Length;
         }
-    
+
         /// <summary>
         /// Scans an individual <see cref="Token"/> and adds it to the <see cref="Token"/> <see cref="List{T}"/>.
         /// </summary>
@@ -173,7 +174,7 @@ namespace LoxLiaison
         {
             return _source[_currentIndex++];
         }
-    
+
         /// <summary>
         /// Adds a <see cref="Token"/> to the <see cref="Token"/> <see cref="List{T}"/> given only a <see cref="TokenType"/>.
         /// </summary>
@@ -193,7 +194,7 @@ namespace LoxLiaison
             string lexeme = _source[_startIndex.._currentIndex];
             _tokens.Add(new Token(type, lexeme, literal, _line));
         }
-    
+
         /// <summary>
         /// Checks if a character is an ASCII digit.
         /// </summary>
@@ -211,7 +212,7 @@ namespace LoxLiaison
         /// <returns>Whether or not the character is an ASCII alphabetical character.</returns>
         private static bool IsAlpha(char c)
         {
-            return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
+            return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c == '_';
         }
 
         /// <summary>
@@ -325,7 +326,7 @@ namespace LoxLiaison
             string value = _source[(_startIndex + 1)..(_currentIndex - 1)];
             AddToken(TokenType.String, value);
         }
-    
+
         /// <summary>
         /// Parses keywords.
         /// </summary>

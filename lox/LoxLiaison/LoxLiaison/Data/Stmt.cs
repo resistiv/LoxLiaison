@@ -1,6 +1,6 @@
 // Generated using GenerateAst.
 
-namespace LoxLiaison
+namespace LoxLiaison.Data
 {
     public abstract class Stmt
     {
@@ -21,10 +21,10 @@ namespace LoxLiaison
         public class Block : Stmt
         {
             public readonly System.Collections.Generic.List<Stmt> Statements;
-            
+
             public Block(System.Collections.Generic.List<Stmt> statements)
             {
-                this.Statements = statements;
+                Statements = statements;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -36,10 +36,10 @@ namespace LoxLiaison
         public class Expression : Stmt
         {
             public readonly Expr Expr;
-            
+
             public Expression(Expr expr)
             {
-                this.Expr = expr;
+                Expr = expr;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -53,12 +53,12 @@ namespace LoxLiaison
             public readonly Token Name;
             public readonly System.Collections.Generic.List<Token> Params;
             public readonly System.Collections.Generic.List<Stmt> Body;
-            
+
             public Function(Token name, System.Collections.Generic.List<Token> @params, System.Collections.Generic.List<Stmt> body)
             {
-                this.Name = name;
-                this.Params = @params;
-                this.Body = body;
+                Name = name;
+                Params = @params;
+                Body = body;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -72,12 +72,12 @@ namespace LoxLiaison
             public readonly Expr Condition;
             public readonly Stmt ThenBranch;
             public readonly Stmt ElseBranch;
-            
+
             public If(Expr condition, Stmt thenBranch, Stmt elseBranch)
             {
-                this.Condition = condition;
-                this.ThenBranch = thenBranch;
-                this.ElseBranch = elseBranch;
+                Condition = condition;
+                ThenBranch = thenBranch;
+                ElseBranch = elseBranch;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -89,10 +89,10 @@ namespace LoxLiaison
         public class Print : Stmt
         {
             public readonly Expr Expr;
-            
+
             public Print(Expr expr)
             {
-                this.Expr = expr;
+                Expr = expr;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -105,11 +105,11 @@ namespace LoxLiaison
         {
             public readonly Token Keyword;
             public readonly Expr Value;
-            
+
             public Return(Token keyword, Expr value)
             {
-                this.Keyword = keyword;
-                this.Value = value;
+                Keyword = keyword;
+                Value = value;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -122,11 +122,11 @@ namespace LoxLiaison
         {
             public readonly Token Name;
             public readonly Expr Initializer;
-            
+
             public Var(Token name, Expr initializer)
             {
-                this.Name = name;
-                this.Initializer = initializer;
+                Name = name;
+                Initializer = initializer;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -139,11 +139,11 @@ namespace LoxLiaison
         {
             public readonly Expr Condition;
             public readonly Stmt Body;
-            
+
             public While(Expr condition, Stmt body)
             {
-                this.Condition = condition;
-                this.Body = body;
+                Condition = condition;
+                Body = body;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)

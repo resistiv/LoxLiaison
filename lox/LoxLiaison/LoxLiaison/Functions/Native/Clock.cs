@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using LoxLiaison.Utils;
 
 namespace LoxLiaison.Functions.Native
 {
+    /// <summary>
+    /// Handles runtime time calculation.
+    /// </summary>
     public class Clock : ILoxCallable
     {
         public int Arity()

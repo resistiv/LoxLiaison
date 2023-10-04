@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using LoxLiaison.Data;
 using LoxLiaison.Exceptions;
 using LoxLiaison.Functions;
 
-namespace LoxLiaison
+namespace LoxLiaison.Utils
 {
+    /// <summary>
+    /// Handles interpreting the parsed syntax tree.
+    /// </summary>
     public class Interpreter : Expr.IVisitor<object>, Stmt.IVisitor<object>
     {
-        public readonly Environment Globals = new();
-        private Environment _environment;
+        public readonly Data.Environment Globals = new();
+        private Data.Environment _environment;
 
         public Interpreter()
         {
@@ -36,6 +40,11 @@ namespace LoxLiaison
             }
         }
 
+        /// <summary>
+        /// Converts an <see cref="object"/> to a <see cref="string"/>.
+        /// </summary>
+        /// <param name="obj">An <see cref="object"/> to convert.</param>
+        /// <returns>A <see cref="string"/> representation of the <see cref="object"/>.</returns>
         private static string Stringify(object obj)
         {
             if (obj == null)
@@ -254,7 +263,7 @@ namespace LoxLiaison
 
         public object VisitBlockStmt(Stmt.Block stmt)
         {
-            ExecuteBlock(stmt.Statements, new Environment(_environment));
+            ExecuteBlock(stmt.Statements, new Data.Environment(_environment));
             return null;
         }
 
@@ -291,7 +300,7 @@ namespace LoxLiaison
             }
             else
             {
-                throw new RuntimeException(@operator, "Operands must be numbers.");    
+                throw new RuntimeException(@operator, "Operands must be numbers.");
             }
         }
 
@@ -314,12 +323,17 @@ namespace LoxLiaison
             stmt.Accept(this);
         }
 
-        public void ExecuteBlock(List<Stmt> statements, Environment environment)
+        /// <summary>
+        /// Executes a block of statements.
+        /// </summary>
+        /// <param name="statements">A <see cref="List{T}"/> of <see cref="Stmt"/> to execute.</param>
+        /// <param name="environment">The <see cref="Data.Environment"/> to execute the statements within.</param>
+        public void ExecuteBlock(List<Stmt> statements, Data.Environment environment)
         {
-            Environment previous = this._environment;
+            Data.Environment previous = _environment;
             try
             {
-                this._environment = environment;
+                _environment = environment;
 
                 for (int i = 0; i < statements.Count; i++)
                 {
@@ -328,7 +342,7 @@ namespace LoxLiaison
             }
             finally
             {
-                this._environment = previous;
+                _environment = previous;
             }
         }
 

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using LoxLiaison.Data;
 using LoxLiaison.Exceptions;
+using LoxLiaison.Utils;
 
 namespace LoxLiaison
 {
@@ -107,6 +109,10 @@ namespace LoxLiaison
             }
         }
 
+        /// <summary>
+        /// Prints a runtime error.
+        /// </summary>
+        /// <param name="error">The <see cref="RuntimeException"/> representing the error.</param>
         public static void RuntimeError(RuntimeException error)
         {
             Console.WriteLine($"{error.Message}\n[line {error.Token.Line}]");

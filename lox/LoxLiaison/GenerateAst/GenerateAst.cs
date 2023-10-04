@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace LoxLiaison.Tool
+namespace LoxLiaison.Tools
 {
     /// <summary>
     /// Handles generation of classes for the abstract syntax tree.

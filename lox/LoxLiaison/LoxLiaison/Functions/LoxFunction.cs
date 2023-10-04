@@ -1,8 +1,13 @@
-﻿using LoxLiaison.Exceptions;
+﻿using LoxLiaison.Data;
+using LoxLiaison.Exceptions;
+using LoxLiaison.Utils;
 using System.Collections.Generic;
 
 namespace LoxLiaison.Functions
 {
+    /// <summary>
+    /// Represents a user-defined function within Lox.
+    /// </summary>
     public class LoxFunction : ILoxCallable
     {
         private readonly Stmt.Function _declaration;

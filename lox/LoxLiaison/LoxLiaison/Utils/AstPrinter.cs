@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace LoxLiaison
+namespace LoxLiaison.Utils
 {
     /// <summary>
     /// Debugging printer to ensure proper AST behaviour.

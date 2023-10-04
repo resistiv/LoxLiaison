@@ -1,4 +1,4 @@
-﻿namespace LoxLiaison
+﻿namespace LoxLiaison.Data
 {
     /// <summary>
     /// Represents the type of a given Lox <see cref="Token"/>.

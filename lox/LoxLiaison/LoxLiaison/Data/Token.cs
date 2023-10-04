@@ -1,4 +1,4 @@
-﻿namespace LoxLiaison
+﻿namespace LoxLiaison.Data
 {
     /// <summary>
     /// Represents a token parsed from raw Lox.

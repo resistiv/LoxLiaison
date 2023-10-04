@@ -1,6 +1,6 @@
 // Generated using GenerateAst.
 
-namespace LoxLiaison
+namespace LoxLiaison.Data
 {
     public abstract class Expr
     {
@@ -22,11 +22,11 @@ namespace LoxLiaison
         {
             public readonly Token Name;
             public readonly Expr Value;
-            
+
             public Assign(Token name, Expr value)
             {
-                this.Name = name;
-                this.Value = value;
+                Name = name;
+                Value = value;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -40,12 +40,12 @@ namespace LoxLiaison
             public readonly Expr Left;
             public readonly Token Operator;
             public readonly Expr Right;
-            
+
             public Binary(Expr left, Token @operator, Expr right)
             {
-                this.Left = left;
-                this.Operator = @operator;
-                this.Right = right;
+                Left = left;
+                Operator = @operator;
+                Right = right;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -59,12 +59,12 @@ namespace LoxLiaison
             public readonly Expr Callee;
             public readonly Token Paren;
             public readonly System.Collections.Generic.List<Expr> Arguments;
-            
+
             public Call(Expr callee, Token paren, System.Collections.Generic.List<Expr> arguments)
             {
-                this.Callee = callee;
-                this.Paren = paren;
-                this.Arguments = arguments;
+                Callee = callee;
+                Paren = paren;
+                Arguments = arguments;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -76,10 +76,10 @@ namespace LoxLiaison
         public class Grouping : Expr
         {
             public readonly Expr Expression;
-            
+
             public Grouping(Expr expression)
             {
-                this.Expression = expression;
+                Expression = expression;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -91,10 +91,10 @@ namespace LoxLiaison
         public class Literal : Expr
         {
             public readonly object Value;
-            
+
             public Literal(object value)
             {
-                this.Value = value;
+                Value = value;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -108,12 +108,12 @@ namespace LoxLiaison
             public readonly Expr Left;
             public readonly Token Operator;
             public readonly Expr Right;
-            
+
             public Logical(Expr left, Token @operator, Expr right)
             {
-                this.Left = left;
-                this.Operator = @operator;
-                this.Right = right;
+                Left = left;
+                Operator = @operator;
+                Right = right;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -126,11 +126,11 @@ namespace LoxLiaison
         {
             public readonly Token Operator;
             public readonly Expr Right;
-            
+
             public Unary(Token @operator, Expr right)
             {
-                this.Operator = @operator;
-                this.Right = right;
+                Operator = @operator;
+                Right = right;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -142,10 +142,10 @@ namespace LoxLiaison
         public class Variable : Expr
         {
             public readonly Token Name;
-            
+
             public Variable(Token name)
             {
-                this.Name = name;
+                Name = name;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
