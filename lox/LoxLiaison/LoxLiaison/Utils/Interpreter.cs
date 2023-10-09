@@ -13,6 +13,7 @@ namespace LoxLiaison.Utils
     {
         public readonly Data.Environment Globals = new();
         private Data.Environment _environment;
+        private readonly Dictionary<Expr, int> _locals = new();
 
         public Interpreter()
         {
@@ -68,7 +69,20 @@ namespace LoxLiaison.Utils
         public object VisitAssignExpr(Expr.Assign expr)
         {
             object value = Evaluate(expr.Value);
-            _environment.Assign(expr.Name, value);
+
+            int distance;
+            try
+            {
+                distance = _locals[expr];
+            }
+            catch (Exception)
+            {
+                Globals.Assign(expr.Name, value);
+                return value;
+            }
+
+            _environment.AssignAt(distance, expr.Name, value);
+
             return value;
         }
 
@@ -193,7 +207,22 @@ namespace LoxLiaison.Utils
 
         public object VisitVariableExpr(Expr.Variable expr)
         {
-            return _environment.Get(expr.Name);
+            return LookUpVariable(expr.Name, expr);
+        }
+
+        private object LookUpVariable(Token name, Expr expr)
+        {
+            int distance;
+            try
+            {
+                distance = _locals[expr];
+            }
+            catch (Exception)
+            {
+                return Globals.Get(name);
+            }
+
+            return _environment.GetAt(distance, name.Lexeme);
         }
 
         public object VisitExpressionStmt(Stmt.Expression stmt)
@@ -321,6 +350,16 @@ namespace LoxLiaison.Utils
         private void Execute(Stmt stmt)
         {
             stmt.Accept(this);
+        }
+
+        /// <summary>
+        /// Saves the depth of an expression within scopes.
+        /// </summary>
+        /// <param name="expr">The expression itself.</param>
+        /// <param name="depth">The depth of the expression.</param>
+        public void Resolve(Expr expr, int depth)
+        {
+            _locals[expr] = depth;
         }
 
         /// <summary>

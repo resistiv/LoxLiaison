@@ -7,6 +7,7 @@ namespace LoxLiaison.Utils
     {
         private readonly Interpreter _interpreter;
         private readonly Stack<Dictionary<string, bool>> _scopes = new();
+        private FunctionType currentFunction = FunctionType.None;
 
         public Resolver(Interpreter interpreter)
         {
@@ -35,12 +36,45 @@ namespace LoxLiaison.Utils
         /// Resolves a list of statements.
         /// </summary>
         /// <param name="statements">A <see cref="List{T}"/> of <see cref="Stmt"/>s to resolve.</param>
-        private void Resolve(List<Stmt> statements)
+        public void Resolve(List<Stmt> statements)
         {
             for (int i = 0; i < statements.Count; i++)
             {
                 Resolve(statements[i]);
             }
+        }
+
+        /// <summary>
+        /// Resolves a local variable by traversing scopes.
+        /// </summary>
+        /// <param name="expr">The expression to evaluate with the value of the local variable.</param>
+        /// <param name="name">The name of the local variable.</param>
+        private void ResolveLocal(Expr expr, Token name)
+        {
+            for (int i = _scopes.Count - 1; i >= 0; i--)
+            {
+                if (_scopes.ToArray()[i].ContainsKey(name.Lexeme))
+                {
+                    _interpreter.Resolve(expr, _scopes.Count - 1 - i);
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Resolves a function.
+        /// </summary>
+        /// <param name="function">A function to resolve.</param>
+        private void ResolveFunction(Stmt.Function function)
+        {
+            BeginScope();
+            for (int i = 0; i < function.Params.Count; i++)
+            {
+                Declare(function.Params[i]);
+                Define(function.Params[i]);
+            }
+            Resolve(function.Body);
+            EndScope();
         }
 
         /// <summary>
@@ -59,11 +93,166 @@ namespace LoxLiaison.Utils
             _scopes.Pop();
         }
 
+        /// <summary>
+        /// Declares a variable within the current scope.
+        /// </summary>
+        /// <param name="name">The name of the variable to declare.</param>
+        private void Declare(Token name)
+        {
+            if (_scopes.Count == 0)
+            {
+                return;
+            }
+
+            Dictionary<string, bool> scope = _scopes.Peek();
+            if (scope.ContainsKey(name.Lexeme))
+            {
+                Liaison.Error(name, "Already a variable with this name in this scope.");
+            }
+
+            scope[name.Lexeme] = false;
+        }
+
+        /// <summary>
+        /// Marks a variable as defined within the current scope.
+        /// </summary>
+        /// <param name="name">The name of the variable to define.</param>
+        private void Define(Token name)
+        {
+            if (_scopes.Count == 0)
+            {
+                return;
+            }
+
+            _scopes.Peek()[name.Lexeme] = true;
+        }
+
         public object VisitBlockStmt(Stmt.Block stmt)
         {
             BeginScope();
             Resolve(stmt.Statements);
             EndScope();
+            return null;
+        }
+
+        public object VisitExpressionStmt(Stmt.Expression stmt)
+        {
+            Resolve(stmt.Expr);
+            return null;
+        }
+
+        public object VisitFunctionStmt(Stmt.Function stmt)
+        {
+            Declare(stmt.Name);
+            Define(stmt.Name);
+
+            ResolveFunction(stmt);
+            return null;
+        }
+
+        public object VisitIfStmt(Stmt.If stmt)
+        {
+            Resolve(stmt.Condition);
+            Resolve(stmt.ThenBranch);
+            if (stmt.ElseBranch != null)
+            {
+                Resolve(stmt.ElseBranch);
+            }
+            return null;
+        }
+
+        public object VisitPrintStmt(Stmt.Print stmt)
+        {
+            Resolve(stmt.Expr);
+            return null;
+        }
+
+        public object VisitReturnStmt(Stmt.Return stmt)
+        {
+            if (stmt.Value != null)
+            {
+                Resolve(stmt.Value);
+            }
+
+            return null;
+        }
+
+        public object VisitVarStmt(Stmt.Var stmt)
+        {
+            Declare(stmt.Name);
+            if (stmt.Initializer != null)
+            {
+                Resolve(stmt.Initializer);
+            }
+            Define(stmt.Name);
+            return null;
+        }
+
+        public object VisitWhileStmt(Stmt.While stmt)
+        {
+            Resolve(stmt.Condition);
+            Resolve(stmt.Body);
+            return null;
+        }
+
+        public object VisitAssignExpr(Expr.Assign expr)
+        {
+            Resolve(expr.Value);
+            ResolveLocal(expr, expr.Name);
+            return null;
+        }
+
+        public object VisitBinaryExpr(Expr.Binary expr)
+        {
+            Resolve(expr.Left);
+            Resolve(expr.Right);
+            return null;
+        }
+
+        public object VisitCallExpr(Expr.Call expr)
+        {
+            Resolve(expr.Callee);
+
+            for (int i = 0; i < expr.Arguments.Count; i++)
+            {
+                Resolve(expr.Arguments[i]);
+            }
+
+            return null;
+        }
+
+        public object VisitGroupingExpr(Expr.Grouping expr)
+        {
+            Resolve(expr.Expression);
+            return null;
+        }
+
+        public object VisitLiteralExpr(Expr.Literal expr)
+        {
+            return null;
+        }
+
+        public object VisitLogicalExpr(Expr.Logical expr)
+        {
+            Resolve(expr.Left);
+            Resolve(expr.Right);
+            return null;
+        }
+
+        public object VisitUnaryExpr(Expr.Unary expr)
+        {
+            Resolve(expr.Right);
+            return null;
+        }
+
+        public object VisitVariableExpr(Expr.Variable expr)
+        {
+            if (_scopes.Count != 0 && !_scopes.Peek()[expr.Name.Lexeme])
+            {
+                Liaison.Error(expr.Name, "Can't read local variable in its own initializer.");
+            }
+
+            ResolveLocal(expr, expr.Name);
             return null;
         }
     }

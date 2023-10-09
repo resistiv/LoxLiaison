@@ -65,11 +65,6 @@ namespace LoxLiaison
             Scanner scanner = new(source);
             List<Token> tokens = scanner.ScanTokens();
 
-            /*for (int i = 0; i < tokens.Count; i++)
-            {
-                Console.WriteLine(tokens[i]);
-            }*/
-
             Parser parser = new(tokens);
             List<Stmt> statements = parser.Parse();
 
@@ -78,6 +73,9 @@ namespace LoxLiaison
             {
                 return;
             }
+
+            Resolver resolver = new(interpreter);
+            resolver.Resolve(statements);
 
             interpreter.Interpret(statements);
         }

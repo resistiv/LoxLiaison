@@ -56,6 +56,38 @@ namespace LoxLiaison.Data
         }
 
         /// <summary>
+        /// Gets a variable at a set distance.
+        /// </summary>
+        /// <param name="distance">The distance of the variable.</param>
+        /// <param name="name">The name of the variable.</param>
+        /// <returns>The value of the variable from within an ancestor environment.</returns>
+        public object GetAt(int distance, string name)
+        {
+            return Ancestor(distance)._values[name];
+        }
+
+        public void AssignAt(int distance, Token name, object value)
+        {
+            Ancestor(distance)._values[name.Lexeme] = value;
+        }
+
+        /// <summary>
+        /// Fetches the ancestor environment some distance away.
+        /// </summary>
+        /// <param name="distance">The distance of the ancestor environment.</param>
+        /// <returns>The ancestor environment.</returns>
+        public Environment Ancestor(int distance)
+        {
+            Environment env = this;
+            for (int i = 0; i < distance; i++)
+            {
+                env = env.Enclosing;
+            }
+
+            return env;
+        }
+
+        /// <summary>
         /// Assigns a variable a new value.
         /// </summary>
         /// <param name="name">The name, or identifier, of the variable.</param>
