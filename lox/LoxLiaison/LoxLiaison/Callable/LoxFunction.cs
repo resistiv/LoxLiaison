@@ -3,7 +3,7 @@ using LoxLiaison.Exceptions;
 using LoxLiaison.Utils;
 using System.Collections.Generic;
 
-namespace LoxLiaison.Functions
+namespace LoxLiaison.Callable
 {
     /// <summary>
     /// Represents a user-defined function within Lox.

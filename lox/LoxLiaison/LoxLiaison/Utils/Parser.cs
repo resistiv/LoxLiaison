@@ -54,6 +54,10 @@ namespace LoxLiaison.Utils
         {
             try
             {
+                if (MatchToken(TokenType.Class))
+                {
+                    return ClassDeclaration();
+                }
                 if (MatchToken(TokenType.Fun))
                 {
                     return Function("function");
@@ -72,6 +76,26 @@ namespace LoxLiaison.Utils
                 SynchronizeState();
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Resolves a class declaration.
+        /// </summary>
+        /// <returns>A <see cref="Stmt"/> representing the class.</returns>
+        private Stmt ClassDeclaration()
+        {
+            Token name = ConsumeToken(TokenType.Identifier, "Expect class name.");
+            ConsumeToken(TokenType.LeftBrace, "Expect '{' before class body.");
+
+            List<Stmt.Function> methods = new();
+            while (!CheckToken(TokenType.RightBrace) && !AtEnd())
+            {
+                methods.Add(Function("method"));
+            }
+
+            ConsumeToken(TokenType.RightBrace, "Expect '}' after class body.");
+
+            return new Stmt.Class(name, methods);
         }
 
         /// <summary>
@@ -327,6 +351,10 @@ namespace LoxLiaison.Utils
                     Token name = v.Name;
                     return new Expr.Assign(name, value);
                 }
+                else if (expr is Expr.Get get)
+                {
+                    return new Expr.Set(get.Object, get.Name, value);
+                }
 
                 Error(equals, "Invalid assignment target.");
             }
@@ -472,6 +500,11 @@ namespace LoxLiaison.Utils
                 {
                     expr = FinishCall(expr);
                 }
+                else if (MatchToken(TokenType.Dot))
+                {
+                    Token name = ConsumeToken(TokenType.Identifier, "Expect property name after '.'.");
+                    expr = new Expr.Get(expr, name);
+                }
                 else
                 {
                     break;
@@ -529,6 +562,11 @@ namespace LoxLiaison.Utils
             if (MatchToken(TokenType.Number, TokenType.String))
             {
                 return new Expr.Literal(PreviousToken().Literal);
+            }
+
+            if (MatchToken(TokenType.This))
+            {
+                return new Expr.This(PreviousToken());
             }
 
             if (MatchToken(TokenType.Identifier))

@@ -1,5 +1,5 @@
 ﻿using LoxLiaison.Data;
-using LoxLiaison.Functions;
+using LoxLiaison.Callable;
 using System.Collections.Generic;
 
 namespace LoxLiaison.Utils
@@ -141,6 +141,20 @@ namespace LoxLiaison.Utils
             return null;
         }
 
+        public object VisitClassStmt(Stmt.Class stmt)
+        {
+            Declare(stmt.Name);
+            Define(stmt.Name);
+
+            for (int i = 0; i < stmt.Methods.Count; i++)
+            {
+                FunctionType declaration = FunctionType.Method;
+                ResolveFunction(stmt.Methods[i], declaration);
+            }
+
+            return null;
+        }
+
         public object VisitExpressionStmt(Stmt.Expression stmt)
         {
             Resolve(stmt.Expr);
@@ -232,6 +246,12 @@ namespace LoxLiaison.Utils
             return null;
         }
 
+        public object VisitGetExpr(Expr.Get expr)
+        {
+            Resolve(expr.Object);
+            return null;
+        }
+
         public object VisitGroupingExpr(Expr.Grouping expr)
         {
             Resolve(expr.Expression);
@@ -247,6 +267,13 @@ namespace LoxLiaison.Utils
         {
             Resolve(expr.Left);
             Resolve(expr.Right);
+            return null;
+        }
+
+        public object VisitSetExpr(Expr.Set expr)
+        {
+            Resolve(expr.Value);
+            Resolve(expr.Object);
             return null;
         }
 

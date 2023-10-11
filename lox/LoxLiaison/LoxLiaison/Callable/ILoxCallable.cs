@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using LoxLiaison.Utils;
 
-namespace LoxLiaison.Functions
+namespace LoxLiaison.Callable
 {
     /// <summary>
     /// Represents a callable mechanism within Lox.

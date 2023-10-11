@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using LoxLiaison.Utils;
 
-namespace LoxLiaison.Functions.Native
+namespace LoxLiaison.Callable.Native
 {
     /// <summary>
     /// Handles runtime time calculation.

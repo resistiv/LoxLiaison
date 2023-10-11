@@ -16,10 +16,13 @@ namespace LoxLiaison.Tools
         {
             "Assign : Token name, Expr value",
             "Binary : Expr left, Token @operator, Expr right",
-            "Call : Expr callee, Token paren, System.Collections.Generic.List<Expr> arguments",
+            "Call : Expr callee, Token paren, List<Expr> arguments",
+            "Get : Expr @object, Token name",
             "Grouping : Expr expression",
             "Literal : object value",
             "Logical : Expr left, Token @operator, Expr right",
+            "Set : Expr @object, Token name, Expr value",
+            "This : Token keyword",
             "Unary : Token @operator, Expr right",
             "Variable : Token name"
         };
@@ -28,9 +31,10 @@ namespace LoxLiaison.Tools
         /// </summary>
         private static readonly List<string> StmtList = new()
         {
-            "Block : System.Collections.Generic.List<Stmt> statements",
+            "Block : List<Stmt> statements",
+            "Class : Token name, List<Stmt.Function> methods",
             "Expression : Expr expr",
-            "Function : Token name, System.Collections.Generic.List<Token> @params, System.Collections.Generic.List<Stmt> body",
+            "Function : Token name, List<Token> @params, List<Stmt> body",
             "If : Expr condition, Stmt thenBranch, Stmt elseBranch",
             "Print : Expr expr",
             "Return : Token keyword, Expr value",
@@ -69,8 +73,9 @@ namespace LoxLiaison.Tools
 
             writer.WriteLine("// Generated using GenerateAst.");
             writer.WriteLine();
-            //writer.WriteLine("using System.Collections.Generic;");
-            //writer.WriteLine();
+            writer.WriteLine("using System.Collections.Generic;");
+            writer.WriteLine("using LoxLiaison.Data;");
+            writer.WriteLine();
             writer.WriteLine("namespace LoxLiaison");
             writer.WriteLine("{");
             writer.WriteLine($"    public abstract class {baseName}");

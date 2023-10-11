@@ -1,6 +1,9 @@
 // Generated using GenerateAst.
 
-namespace LoxLiaison.Data
+using System.Collections.Generic;
+using LoxLiaison.Data;
+
+namespace LoxLiaison
 {
     public abstract class Stmt
     {
@@ -9,6 +12,7 @@ namespace LoxLiaison.Data
         public interface IVisitor<T>
         {
             public T VisitBlockStmt(Block stmt);
+            public T VisitClassStmt(Class stmt);
             public T VisitExpressionStmt(Expression stmt);
             public T VisitFunctionStmt(Function stmt);
             public T VisitIfStmt(If stmt);
@@ -20,11 +24,11 @@ namespace LoxLiaison.Data
 
         public class Block : Stmt
         {
-            public readonly System.Collections.Generic.List<Stmt> Statements;
-
-            public Block(System.Collections.Generic.List<Stmt> statements)
+            public readonly List<Stmt> Statements;
+            
+            public Block(List<Stmt> statements)
             {
-                Statements = statements;
+                this.Statements = statements;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -33,13 +37,30 @@ namespace LoxLiaison.Data
             }
         }
 
+        public class Class : Stmt
+        {
+            public readonly Token Name;
+            public readonly List<Stmt.Function> Methods;
+            
+            public Class(Token name, List<Stmt.Function> methods)
+            {
+                this.Name = name;
+                this.Methods = methods;
+            }
+
+            public override T Accept<T>(IVisitor<T> visitor)
+            {
+                return visitor.VisitClassStmt(this);
+            }
+        }
+
         public class Expression : Stmt
         {
             public readonly Expr Expr;
-
+            
             public Expression(Expr expr)
             {
-                Expr = expr;
+                this.Expr = expr;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -51,14 +72,14 @@ namespace LoxLiaison.Data
         public class Function : Stmt
         {
             public readonly Token Name;
-            public readonly System.Collections.Generic.List<Token> Params;
-            public readonly System.Collections.Generic.List<Stmt> Body;
-
-            public Function(Token name, System.Collections.Generic.List<Token> @params, System.Collections.Generic.List<Stmt> body)
+            public readonly List<Token> Params;
+            public readonly List<Stmt> Body;
+            
+            public Function(Token name, List<Token> @params, List<Stmt> body)
             {
-                Name = name;
-                Params = @params;
-                Body = body;
+                this.Name = name;
+                this.Params = @params;
+                this.Body = body;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -72,12 +93,12 @@ namespace LoxLiaison.Data
             public readonly Expr Condition;
             public readonly Stmt ThenBranch;
             public readonly Stmt ElseBranch;
-
+            
             public If(Expr condition, Stmt thenBranch, Stmt elseBranch)
             {
-                Condition = condition;
-                ThenBranch = thenBranch;
-                ElseBranch = elseBranch;
+                this.Condition = condition;
+                this.ThenBranch = thenBranch;
+                this.ElseBranch = elseBranch;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -89,10 +110,10 @@ namespace LoxLiaison.Data
         public class Print : Stmt
         {
             public readonly Expr Expr;
-
+            
             public Print(Expr expr)
             {
-                Expr = expr;
+                this.Expr = expr;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -105,11 +126,11 @@ namespace LoxLiaison.Data
         {
             public readonly Token Keyword;
             public readonly Expr Value;
-
+            
             public Return(Token keyword, Expr value)
             {
-                Keyword = keyword;
-                Value = value;
+                this.Keyword = keyword;
+                this.Value = value;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -122,11 +143,11 @@ namespace LoxLiaison.Data
         {
             public readonly Token Name;
             public readonly Expr Initializer;
-
+            
             public Var(Token name, Expr initializer)
             {
-                Name = name;
-                Initializer = initializer;
+                this.Name = name;
+                this.Initializer = initializer;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -139,11 +160,11 @@ namespace LoxLiaison.Data
         {
             public readonly Expr Condition;
             public readonly Stmt Body;
-
+            
             public While(Expr condition, Stmt body)
             {
-                Condition = condition;
-                Body = body;
+                this.Condition = condition;
+                this.Body = body;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)

@@ -1,6 +1,9 @@
 // Generated using GenerateAst.
 
-namespace LoxLiaison.Data
+using System.Collections.Generic;
+using LoxLiaison.Data;
+
+namespace LoxLiaison
 {
     public abstract class Expr
     {
@@ -11,9 +14,12 @@ namespace LoxLiaison.Data
             public T VisitAssignExpr(Assign expr);
             public T VisitBinaryExpr(Binary expr);
             public T VisitCallExpr(Call expr);
+            public T VisitGetExpr(Get expr);
             public T VisitGroupingExpr(Grouping expr);
             public T VisitLiteralExpr(Literal expr);
             public T VisitLogicalExpr(Logical expr);
+            public T VisitSetExpr(Set expr);
+            public T VisitThisExpr(This expr);
             public T VisitUnaryExpr(Unary expr);
             public T VisitVariableExpr(Variable expr);
         }
@@ -22,11 +28,11 @@ namespace LoxLiaison.Data
         {
             public readonly Token Name;
             public readonly Expr Value;
-
+            
             public Assign(Token name, Expr value)
             {
-                Name = name;
-                Value = value;
+                this.Name = name;
+                this.Value = value;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -40,12 +46,12 @@ namespace LoxLiaison.Data
             public readonly Expr Left;
             public readonly Token Operator;
             public readonly Expr Right;
-
+            
             public Binary(Expr left, Token @operator, Expr right)
             {
-                Left = left;
-                Operator = @operator;
-                Right = right;
+                this.Left = left;
+                this.Operator = @operator;
+                this.Right = right;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -58,13 +64,13 @@ namespace LoxLiaison.Data
         {
             public readonly Expr Callee;
             public readonly Token Paren;
-            public readonly System.Collections.Generic.List<Expr> Arguments;
-
-            public Call(Expr callee, Token paren, System.Collections.Generic.List<Expr> arguments)
+            public readonly List<Expr> Arguments;
+            
+            public Call(Expr callee, Token paren, List<Expr> arguments)
             {
-                Callee = callee;
-                Paren = paren;
-                Arguments = arguments;
+                this.Callee = callee;
+                this.Paren = paren;
+                this.Arguments = arguments;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -73,13 +79,30 @@ namespace LoxLiaison.Data
             }
         }
 
+        public class Get : Expr
+        {
+            public readonly Expr Object;
+            public readonly Token Name;
+            
+            public Get(Expr @object, Token name)
+            {
+                this.Object = @object;
+                this.Name = name;
+            }
+
+            public override T Accept<T>(IVisitor<T> visitor)
+            {
+                return visitor.VisitGetExpr(this);
+            }
+        }
+
         public class Grouping : Expr
         {
             public readonly Expr Expression;
-
+            
             public Grouping(Expr expression)
             {
-                Expression = expression;
+                this.Expression = expression;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -91,10 +114,10 @@ namespace LoxLiaison.Data
         public class Literal : Expr
         {
             public readonly object Value;
-
+            
             public Literal(object value)
             {
-                Value = value;
+                this.Value = value;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -108,12 +131,12 @@ namespace LoxLiaison.Data
             public readonly Expr Left;
             public readonly Token Operator;
             public readonly Expr Right;
-
+            
             public Logical(Expr left, Token @operator, Expr right)
             {
-                Left = left;
-                Operator = @operator;
-                Right = right;
+                this.Left = left;
+                this.Operator = @operator;
+                this.Right = right;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -122,15 +145,49 @@ namespace LoxLiaison.Data
             }
         }
 
+        public class Set : Expr
+        {
+            public readonly Expr Object;
+            public readonly Token Name;
+            public readonly Expr Value;
+            
+            public Set(Expr @object, Token name, Expr value)
+            {
+                this.Object = @object;
+                this.Name = name;
+                this.Value = value;
+            }
+
+            public override T Accept<T>(IVisitor<T> visitor)
+            {
+                return visitor.VisitSetExpr(this);
+            }
+        }
+
+        public class This : Expr
+        {
+            public readonly Token Keyword;
+            
+            public This(Token keyword)
+            {
+                this.Keyword = keyword;
+            }
+
+            public override T Accept<T>(IVisitor<T> visitor)
+            {
+                return visitor.VisitThisExpr(this);
+            }
+        }
+
         public class Unary : Expr
         {
             public readonly Token Operator;
             public readonly Expr Right;
-
+            
             public Unary(Token @operator, Expr right)
             {
-                Operator = @operator;
-                Right = right;
+                this.Operator = @operator;
+                this.Right = right;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)
@@ -142,10 +199,10 @@ namespace LoxLiaison.Data
         public class Variable : Expr
         {
             public readonly Token Name;
-
+            
             public Variable(Token name)
             {
-                Name = name;
+                this.Name = name;
             }
 
             public override T Accept<T>(IVisitor<T> visitor)

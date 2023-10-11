@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using LoxLiaison.Callable;
 using LoxLiaison.Data;
 using LoxLiaison.Exceptions;
-using LoxLiaison.Functions;
 
 namespace LoxLiaison.Utils
 {
@@ -19,7 +19,7 @@ namespace LoxLiaison.Utils
         {
             _environment = Globals;
 
-            Globals.Define("clock", new Functions.Native.Clock());
+            Globals.Define("clock", new Callable.Native.Clock());
         }
 
         /// <summary>
@@ -157,6 +157,17 @@ namespace LoxLiaison.Utils
             return function.Call(this, arguments);
         }
 
+        public object VisitGetExpr(Expr.Get expr)
+        {
+            object obj = Evaluate(expr.Object);
+            if (obj is LoxInstance)
+            {
+                return ((LoxInstance)obj).Get(expr.Name);
+            }
+
+            throw new RuntimeException(expr.Name, "Only instances have properties.");
+        }
+
         public object VisitGroupingExpr(Expr.Grouping expr)
         {
             return Evaluate(expr.Expression);
@@ -187,6 +198,20 @@ namespace LoxLiaison.Utils
             }
 
             return Evaluate(expr.Right);
+        }
+
+        public object VisitSetExpr(Expr.Set expr)
+        {
+            object obj = Evaluate(expr.Object);
+
+            if (obj is not LoxInstance)
+            {
+                throw new RuntimeException(expr.Name, "Only instances have fields.");
+            }
+
+            object value = Evaluate(expr.Value);
+            ((LoxInstance)obj).Set(expr.Name, value);
+            return value;
         }
 
         public object VisitUnaryExpr(Expr.Unary expr)
@@ -293,6 +318,22 @@ namespace LoxLiaison.Utils
         public object VisitBlockStmt(Stmt.Block stmt)
         {
             ExecuteBlock(stmt.Statements, new Data.Environment(_environment));
+            return null;
+        }
+
+        public object VisitClassStmt(Stmt.Class stmt)
+        {
+            _environment.Define(stmt.Name.Lexeme, null);
+
+            Dictionary<string, LoxFunction> methods = new();
+            for (int i = 0; i < stmt.Methods.Count; i++)
+            {
+                LoxFunction function = new(stmt.Methods[i], _environment);
+                methods[stmt.Methods[i].Name.Lexeme] = function;
+            }
+
+            LoxClass @class = new(stmt.Name.Lexeme, methods);
+            _environment.Assign(stmt.Name, @class);
             return null;
         }
 
