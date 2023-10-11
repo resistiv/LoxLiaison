@@ -77,6 +77,11 @@ namespace LoxLiaison
             Resolver resolver = new(interpreter);
             resolver.Resolve(statements);
 
+            if (HadError)
+            {
+                return;
+            }
+
             interpreter.Interpret(statements);
         }
     

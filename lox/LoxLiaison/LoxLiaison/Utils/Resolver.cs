@@ -1,4 +1,5 @@
 ﻿using LoxLiaison.Data;
+using LoxLiaison.Functions;
 using System.Collections.Generic;
 
 namespace LoxLiaison.Utils
@@ -7,7 +8,7 @@ namespace LoxLiaison.Utils
     {
         private readonly Interpreter _interpreter;
         private readonly Stack<Dictionary<string, bool>> _scopes = new();
-        private FunctionType currentFunction = FunctionType.None;
+        private FunctionType _currentFunction = FunctionType.None;
 
         public Resolver(Interpreter interpreter)
         {
@@ -65,8 +66,11 @@ namespace LoxLiaison.Utils
         /// Resolves a function.
         /// </summary>
         /// <param name="function">A function to resolve.</param>
-        private void ResolveFunction(Stmt.Function function)
+        private void ResolveFunction(Stmt.Function function, FunctionType type)
         {
+            FunctionType enclosingFunction = _currentFunction;
+            _currentFunction = type;
+
             BeginScope();
             for (int i = 0; i < function.Params.Count; i++)
             {
@@ -75,6 +79,8 @@ namespace LoxLiaison.Utils
             }
             Resolve(function.Body);
             EndScope();
+
+            _currentFunction = enclosingFunction;
         }
 
         /// <summary>
@@ -146,7 +152,7 @@ namespace LoxLiaison.Utils
             Declare(stmt.Name);
             Define(stmt.Name);
 
-            ResolveFunction(stmt);
+            ResolveFunction(stmt, FunctionType.Function);
             return null;
         }
 
@@ -169,6 +175,11 @@ namespace LoxLiaison.Utils
 
         public object VisitReturnStmt(Stmt.Return stmt)
         {
+            if (_currentFunction == FunctionType.None)
+            {
+                Liaison.Error(stmt.Keyword, "Can't return from top-level code.");
+            }
+
             if (stmt.Value != null)
             {
                 Resolve(stmt.Value);
