@@ -12,11 +12,13 @@ namespace LoxLiaison.Callable
     {
         private readonly Stmt.Function _declaration;
         private readonly Environment _closure;
+        private readonly bool _isInitializer;
 
-        public LoxFunction(Stmt.Function declaration, Environment closure)
+        public LoxFunction(Stmt.Function declaration, Environment closure, bool isInitializer)
         {
             _declaration = declaration;
             _closure = closure;
+            _isInitializer = isInitializer;
         }
 
         /// <summary>
@@ -28,7 +30,7 @@ namespace LoxLiaison.Callable
         {
             Environment env = new(_closure);
             env.Define("this", instance);
-            return new LoxFunction(_declaration, env);
+            return new LoxFunction(_declaration, env, _isInitializer);
         }
 
         public int Arity()
@@ -50,7 +52,17 @@ namespace LoxLiaison.Callable
             }
             catch (ReturnException r)
             {
+                if (_isInitializer)
+                {
+                    return _closure.GetAt(0, "this");
+                }
+
                 return r.Value;
+            }
+
+            if (_isInitializer)
+            {
+                return _closure.GetAt(0, "this");
             }
 
             return null;

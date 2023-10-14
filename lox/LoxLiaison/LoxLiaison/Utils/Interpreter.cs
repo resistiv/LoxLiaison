@@ -404,7 +404,7 @@ namespace LoxLiaison.Utils
 
             foreach (Stmt.Function method in stmt.Methods)
             {
-                LoxFunction func = new(method, _environment);
+                LoxFunction func = new(method, _environment, method.Name.Lexeme.Equals("init"));
                 methods.Add(method.Name.Lexeme, func);
             }
 
@@ -422,7 +422,7 @@ namespace LoxLiaison.Utils
 
         public object VisitFunctionStmt(Stmt.Function stmt)
         {
-            LoxFunction function = new(stmt, _environment);
+            LoxFunction function = new(stmt, _environment, false);
             _environment.Define(stmt.Name.Lexeme, function);
             return null;
         }

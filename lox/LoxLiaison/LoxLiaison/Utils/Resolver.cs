@@ -9,6 +9,7 @@ namespace LoxLiaison.Utils
         private readonly Interpreter _interpreter;
         private readonly Stack<Dictionary<string, bool>> _scopes = new();
         private FunctionType _currentFunction = FunctionType.None;
+        private ClassType _currentClass = ClassType.None;
 
         public Resolver(Interpreter interpreter)
         {
@@ -153,6 +154,9 @@ namespace LoxLiaison.Utils
 
         public object VisitClassStmt(Stmt.Class stmt)
         {
+            ClassType enclosingClass = _currentClass;
+            _currentClass = ClassType.Class;
+
             Declare(stmt.Name);
             Define(stmt.Name);
 
@@ -162,11 +166,17 @@ namespace LoxLiaison.Utils
             foreach (Stmt.Function method in stmt.Methods)
             {
                 FunctionType declaration = FunctionType.Method;
+                if (method.Name.Lexeme.Equals("init"))
+                {
+                    declaration = FunctionType.Initializer;
+                }
+
                 ResolveFunction(method, declaration);
             }
 
             EndScope();
 
+            _currentClass = enclosingClass;
             return null;
         }
 
@@ -211,6 +221,11 @@ namespace LoxLiaison.Utils
 
             if (stmt.Value != null)
             {
+                if (_currentFunction == FunctionType.Initializer)
+                {
+                    Liaison.Error(stmt.Keyword, "Can't return a value from an initializer.");
+                }
+
                 Resolve(stmt.Value);
             }
 
@@ -298,6 +313,12 @@ namespace LoxLiaison.Utils
 
         public object VisitThisExpr(Expr.This expr)
         {
+            if (_currentClass == ClassType.None)
+            {
+                Liaison.Error(expr.Keyword, "Can't use 'this' outside of a class.");
+                return null;
+            }
+
             ResolveLocal(expr, expr.Keyword);
             return null;
         }

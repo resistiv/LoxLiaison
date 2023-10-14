@@ -29,12 +29,15 @@ namespace LoxLiaison.Callable
 
         public int Arity()
         {
-            return 0;
+            LoxFunction initializer = FindMethod("init");
+            return initializer == null ? 0 : initializer.Arity();
         }
 
         public object Call(Interpreter interpreter, List<object> arguments)
         {
             LoxInstance instance = new(this);
+            LoxFunction initializer = FindMethod("init");
+            initializer?.Bind(instance).Call(interpreter, arguments);
             return instance;
         }
 
