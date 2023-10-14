@@ -16,6 +16,18 @@ namespace LoxLiaison.Utils
         }
 
         /// <summary>
+        /// Resolves a list of statements.
+        /// </summary>
+        /// <param name="statements">A <see cref="List{T}"/> of <see cref="Stmt"/>s to resolve.</param>
+        public void Resolve(List<Stmt> statements)
+        {
+            foreach (Stmt statement in statements)
+            {
+                Resolve(statement);
+            }
+        }
+
+        /// <summary>
         /// Resolves a statement.
         /// </summary>
         /// <param name="stmt">A <see cref="Stmt"/> to resolve.</param>
@@ -34,35 +46,6 @@ namespace LoxLiaison.Utils
         }
 
         /// <summary>
-        /// Resolves a list of statements.
-        /// </summary>
-        /// <param name="statements">A <see cref="List{T}"/> of <see cref="Stmt"/>s to resolve.</param>
-        public void Resolve(List<Stmt> statements)
-        {
-            for (int i = 0; i < statements.Count; i++)
-            {
-                Resolve(statements[i]);
-            }
-        }
-
-        /// <summary>
-        /// Resolves a local variable by traversing scopes.
-        /// </summary>
-        /// <param name="expr">The expression to evaluate with the value of the local variable.</param>
-        /// <param name="name">The name of the local variable.</param>
-        private void ResolveLocal(Expr expr, Token name)
-        {
-            for (int i = _scopes.Count - 1; i >= 0; i--)
-            {
-                if (_scopes.ToArray()[i].ContainsKey(name.Lexeme))
-                {
-                    _interpreter.Resolve(expr, _scopes.Count - 1 - i);
-                    return;
-                }
-            }
-        }
-
-        /// <summary>
         /// Resolves a function.
         /// </summary>
         /// <param name="function">A function to resolve.</param>
@@ -72,15 +55,40 @@ namespace LoxLiaison.Utils
             _currentFunction = type;
 
             BeginScope();
-            for (int i = 0; i < function.Params.Count; i++)
+            foreach (Token param in function.Params)
             {
-                Declare(function.Params[i]);
-                Define(function.Params[i]);
+                Declare(param);
+                Define(param);
             }
             Resolve(function.Body);
             EndScope();
 
             _currentFunction = enclosingFunction;
+        }
+
+        /// <summary>
+        /// Resolves a local variable by traversing scopes.
+        /// </summary>
+        /// <param name="expr">The expression to evaluate with the value of the local variable.</param>
+        /// <param name="name">The name of the local variable.</param>
+        private void ResolveLocal(Expr expr, Token name)
+        {
+            for (int i = 0; i < _scopes.Count; i++)
+            //for (int i = _scopes.Count - 1; i >= 0; i--)
+            {
+                if (_scopes.ToArray()[i].ContainsKey(name.Lexeme))
+                {
+                    _interpreter.Resolve(expr, i);
+                    //_interpreter.Resolve(expr, _scopes.Count - 1 - i);
+                    return;
+                }
+            }
+
+            // This function has been giving me some trouble, but I think I've got it figured out:
+            // Java's .get() accessor on stacks treats the stack like a FIFO array,
+            // while C#'s .ToArray() flattens the stack to LIFO order, meaning
+            // this loop needs to be reversed.
+            // It also means that depth is reflected by i implicitly.
         }
 
         /// <summary>
@@ -116,7 +124,7 @@ namespace LoxLiaison.Utils
                 Liaison.Error(name, "Already a variable with this name in this scope.");
             }
 
-            scope[name.Lexeme] = false;
+            scope.Add(name.Lexeme, false);
         }
 
         /// <summary>
@@ -133,6 +141,8 @@ namespace LoxLiaison.Utils
             _scopes.Peek()[name.Lexeme] = true;
         }
 
+        #region Statement Visitors
+
         public object VisitBlockStmt(Stmt.Block stmt)
         {
             BeginScope();
@@ -146,11 +156,16 @@ namespace LoxLiaison.Utils
             Declare(stmt.Name);
             Define(stmt.Name);
 
-            for (int i = 0; i < stmt.Methods.Count; i++)
+            BeginScope();
+            _scopes.Peek().Add("this", true);
+
+            foreach (Stmt.Function method in stmt.Methods)
             {
                 FunctionType declaration = FunctionType.Method;
-                ResolveFunction(stmt.Methods[i], declaration);
+                ResolveFunction(method, declaration);
             }
+
+            EndScope();
 
             return null;
         }
@@ -220,6 +235,10 @@ namespace LoxLiaison.Utils
             return null;
         }
 
+        #endregion
+
+        #region Expression Visitors
+
         public object VisitAssignExpr(Expr.Assign expr)
         {
             Resolve(expr.Value);
@@ -238,9 +257,9 @@ namespace LoxLiaison.Utils
         {
             Resolve(expr.Callee);
 
-            for (int i = 0; i < expr.Arguments.Count; i++)
+            foreach (Expr argument in expr.Arguments)
             {
-                Resolve(expr.Arguments[i]);
+                Resolve(argument);
             }
 
             return null;
@@ -277,6 +296,12 @@ namespace LoxLiaison.Utils
             return null;
         }
 
+        public object VisitThisExpr(Expr.This expr)
+        {
+            ResolveLocal(expr, expr.Keyword);
+            return null;
+        }
+
         public object VisitUnaryExpr(Expr.Unary expr)
         {
             Resolve(expr.Right);
@@ -293,5 +318,7 @@ namespace LoxLiaison.Utils
             ResolveLocal(expr, expr.Name);
             return null;
         }
+
+        #endregion
     }
 }

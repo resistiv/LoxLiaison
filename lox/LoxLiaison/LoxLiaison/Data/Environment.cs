@@ -12,7 +12,7 @@ namespace LoxLiaison.Data
         /// The <see cref="Environment"/> that encloses this <see cref="Environment"/>.
         /// </summary>
         public readonly Environment Enclosing;
-        private readonly Dictionary<string, object> _values = new();
+        private readonly Dictionary<string, object> Values = new();
 
         public Environment()
         {
@@ -31,7 +31,7 @@ namespace LoxLiaison.Data
         /// <param name="value">The value of the variable.</param>
         public void Define(string name, object value)
         {
-            _values[name] = value;
+            Values.Add(name, value);
         }
 
         /// <summary>
@@ -42,9 +42,9 @@ namespace LoxLiaison.Data
         /// <exception cref="RuntimeException">Thrown when the variable is undefined.</exception>
         public object Get(Token name)
         {
-            if (_values.ContainsKey(name.Lexeme))
+            if (Values.ContainsKey(name.Lexeme))
             {
-                return _values[name.Lexeme];
+                return Values[name.Lexeme];
             }
 
             if (Enclosing != null)
@@ -63,12 +63,7 @@ namespace LoxLiaison.Data
         /// <returns>The value of the variable from within an ancestor environment.</returns>
         public object GetAt(int distance, string name)
         {
-            return Ancestor(distance)._values[name];
-        }
-
-        public void AssignAt(int distance, Token name, object value)
-        {
-            Ancestor(distance)._values[name.Lexeme] = value;
+            return Ancestor(distance).Values[name];
         }
 
         /// <summary>
@@ -79,6 +74,7 @@ namespace LoxLiaison.Data
         public Environment Ancestor(int distance)
         {
             Environment env = this;
+
             for (int i = 0; i < distance; i++)
             {
                 env = env.Enclosing;
@@ -95,9 +91,9 @@ namespace LoxLiaison.Data
         /// <exception cref="RuntimeException">Thrown when the variable is undefined.</exception>
         public void Assign(Token name, object value)
         {
-            if (_values.ContainsKey(name.Lexeme))
+            if (Values.ContainsKey(name.Lexeme))
             {
-                _values[name.Lexeme] = value;
+                Values[name.Lexeme] = value;
                 return;
             }
 
@@ -108,6 +104,17 @@ namespace LoxLiaison.Data
             }
 
             throw new RuntimeException(name, $"Undefined variable '{name.Lexeme}'.");
+        }
+
+        /// <summary>
+        /// Assigns a local at a certain distance.
+        /// </summary>
+        /// <param name="distance"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public void AssignAt(int distance, Token name, object value)
+        {
+            Ancestor(distance).Values.Add(name.Lexeme, value);
         }
     }
 }

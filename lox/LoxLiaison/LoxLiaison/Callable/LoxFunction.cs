@@ -19,6 +19,18 @@ namespace LoxLiaison.Callable
             _closure = closure;
         }
 
+        /// <summary>
+        /// Binds this function to an instance.
+        /// </summary>
+        /// <param name="instance">A parent <see cref="LoxInstance"/> to bind to.</param>
+        /// <returns>The bound <see cref="LoxFunction"/>.</returns>
+        public LoxFunction Bind(LoxInstance instance)
+        {
+            Environment env = new(_closure);
+            env.Define("this", instance);
+            return new LoxFunction(_declaration, env);
+        }
+
         public int Arity()
         {
             return _declaration.Params.Count;

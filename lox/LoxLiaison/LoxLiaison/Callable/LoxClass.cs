@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace LoxLiaison.Callable
 {
+    /// <summary>
+    /// Handles class definitions.
+    /// </summary>
     public class LoxClass : ILoxCallable
     {
         public readonly string Name;

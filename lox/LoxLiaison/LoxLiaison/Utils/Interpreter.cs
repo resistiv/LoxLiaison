@@ -19,7 +19,60 @@ namespace LoxLiaison.Utils
         {
             _environment = Globals;
 
+            // Define native functions
             Globals.Define("clock", new Callable.Native.Clock());
+        }
+
+        /// <summary>
+        /// Evaluates an expression.
+        /// </summary>
+        /// <param name="expr">An <see cref="Expr"/> to evaluate.</param>
+        /// <returns>The result of the evaluation.</returns>
+        private object Evaluate(Expr expr)
+        {
+            return expr.Accept(this);
+        }
+
+        /// <summary>
+        /// Executes a statement.
+        /// </summary>
+        /// <param name="stmt">A <see cref="Stmt"/> to execute.</param>
+        private void Execute(Stmt stmt)
+        {
+            stmt.Accept(this);
+        }
+
+        /// <summary>
+        /// Saves the depth of an expression within scopes.
+        /// </summary>
+        /// <param name="expr">The expression itself.</param>
+        /// <param name="depth">The depth of the expression.</param>
+        public void Resolve(Expr expr, int depth)
+        {
+            _locals.Add(expr, depth);
+        }
+
+        /// <summary>
+        /// Executes a block of statements.
+        /// </summary>
+        /// <param name="statements">A <see cref="List{T}"/> of <see cref="Stmt"/> to execute.</param>
+        /// <param name="environment">The <see cref="Data.Environment"/> to execute the statements within.</param>
+        public void ExecuteBlock(List<Stmt> statements, Data.Environment environment)
+        {
+            Data.Environment previous = _environment;
+            try
+            {
+                _environment = environment;
+
+                for (int i = 0; i < statements.Count; i++)
+                {
+                    Execute(statements[i]);
+                }
+            }
+            finally
+            {
+                _environment = previous;
+            }
         }
 
         /// <summary>
@@ -30,14 +83,108 @@ namespace LoxLiaison.Utils
         {
             try
             {
-                for (int i = 0; i < statements.Count; i++)
+                foreach (Stmt statement in statements)
                 {
-                    Execute(statements[i]);
+                    Execute(statement);
                 }
             }
             catch (RuntimeException e)
             {
                 Liaison.RuntimeError(e);
+            }
+        }
+
+        /// <summary>
+        /// Checks the operand of an unary expression.
+        /// </summary>
+        /// <param name="operator">The operator to apply to the operand.</param>
+        /// <param name="operand">The operand in question.</param>
+        /// <exception cref="RuntimeException">Thrown when the operand is not a <see cref="double"/>.</exception>
+        private static void CheckNumberOperand(Token @operator, object operand)
+        {
+            if (operand is double)
+            {
+                return;
+            }
+            else
+            {
+                throw new RuntimeException(@operator, "Operand must be a number.");
+            }
+        }
+        
+        /// <summary>
+        /// Checks the operands of a binary expression.
+        /// </summary>
+        /// <param name="operator">The operator to apply to the operands.</param>
+        /// <param name="left">The left operand.</param>
+        /// <param name="right">The right operand.</param>
+        /// <exception cref="RuntimeException">Thrown when either operand is not a <see cref="double"/>.</exception>
+        private static void CheckNumberOperands(Token @operator, object left, object right)
+        {
+            if (left is double && right is double)
+            {
+                return;
+            }
+            else
+            {
+                throw new RuntimeException(@operator, "Operands must be numbers.");
+            }
+        }
+
+        /// <summary>
+        /// Determines if two <see cref="object"/>s are equal.
+        /// </summary>
+        /// <param name="a">An <see cref="object"/> to compare.</param>
+        /// <param name="b">Another <see cref="object"/> to compare.</param>
+        /// <returns>Whether or not the <see cref="object"/>s are equal.</returns>
+        private static bool IsEqual(object a, object b)
+        {
+            if (a == null && b == null)
+            {
+                return true;
+            }
+            if (a == null)
+            {
+                return false;
+            }
+
+            return a.Equals(b);
+        }
+
+        /// <summary>
+        /// Determines if an object is truthy (not nil or false).
+        /// </summary>
+        /// <param name="obj">An <see cref="object"/> to test.</param>
+        /// <returns>Whether or not the <see cref="object"/> is truthy.</returns>
+        private static bool IsTruthy(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (obj is bool b)
+            {
+                return b;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Looks up a local variable.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="expr"></param>
+        /// <returns></returns>
+        private object LookUpVariable(Token name, Expr expr)
+        {
+            if (_locals.TryGetValue(expr, out int distance))
+            {
+                return _environment.GetAt(distance, name.Lexeme);
+            }
+            else
+            {
+                return Globals.Get(name);
             }
         }
 
@@ -66,22 +213,20 @@ namespace LoxLiaison.Utils
             return obj.ToString();
         }
 
+        #region Expression Visitors
+
         public object VisitAssignExpr(Expr.Assign expr)
         {
             object value = Evaluate(expr.Value);
 
-            int distance;
-            try
+            if (_locals.TryGetValue(expr, out int distance))
             {
-                distance = _locals[expr];
+                _environment.AssignAt(distance, expr.Name, value);
             }
-            catch (Exception)
+            else
             {
                 Globals.Assign(expr.Name, value);
-                return value;
             }
-
-            _environment.AssignAt(distance, expr.Name, value);
 
             return value;
         }
@@ -119,7 +264,7 @@ namespace LoxLiaison.Utils
                     }
                     if (left is string sl && right is string sr)
                     {
-                        return sl + sr;
+                        return $"{sl}{sr}";
                     }
                     throw new RuntimeException(expr.Operator, "Operands must be two numbers or two strings.");
                 case TokenType.Slash:
@@ -138,9 +283,9 @@ namespace LoxLiaison.Utils
             object callee = Evaluate(expr.Callee);
 
             List<object> arguments = new();
-            for (int i = 0; i < expr.Arguments.Count; i++)
+            foreach (Expr argument in expr.Arguments)
             {
-                arguments.Add(Evaluate(expr.Arguments[i]));
+                arguments.Add(Evaluate(argument));
             }
 
             if (callee is not ILoxCallable)
@@ -160,9 +305,10 @@ namespace LoxLiaison.Utils
         public object VisitGetExpr(Expr.Get expr)
         {
             object obj = Evaluate(expr.Object);
-            if (obj is LoxInstance)
+
+            if (obj is LoxInstance instance)
             {
-                return ((LoxInstance)obj).Get(expr.Name);
+                return instance.Get(expr.Name);
             }
 
             throw new RuntimeException(expr.Name, "Only instances have properties.");
@@ -214,6 +360,11 @@ namespace LoxLiaison.Utils
             return value;
         }
 
+        public object VisitThisExpr(Expr.This expr)
+        {
+            return LookUpVariable(expr.Keyword, expr);
+        }
+
         public object VisitUnaryExpr(Expr.Unary expr)
         {
             object right = Evaluate(expr.Right);
@@ -235,19 +386,32 @@ namespace LoxLiaison.Utils
             return LookUpVariable(expr.Name, expr);
         }
 
-        private object LookUpVariable(Token name, Expr expr)
+        #endregion
+
+        #region Statement Visitors
+
+        public object VisitBlockStmt(Stmt.Block stmt)
         {
-            int distance;
-            try
+            ExecuteBlock(stmt.Statements, new Data.Environment(_environment));
+            return null;
+        }
+
+        public object VisitClassStmt(Stmt.Class stmt)
+        {
+            _environment.Define(stmt.Name.Lexeme, null);
+
+            Dictionary<string, LoxFunction> methods = new();
+
+            foreach (Stmt.Function method in stmt.Methods)
             {
-                distance = _locals[expr];
-            }
-            catch (Exception)
-            {
-                return Globals.Get(name);
+                LoxFunction func = new(method, _environment);
+                methods.Add(method.Name.Lexeme, func);
             }
 
-            return _environment.GetAt(distance, name.Lexeme);
+            LoxClass @class = new(stmt.Name.Lexeme, methods);
+            _environment.Assign(stmt.Name, @class);
+
+            return null;
         }
 
         public object VisitExpressionStmt(Stmt.Expression stmt)
@@ -315,154 +479,6 @@ namespace LoxLiaison.Utils
             return null;
         }
 
-        public object VisitBlockStmt(Stmt.Block stmt)
-        {
-            ExecuteBlock(stmt.Statements, new Data.Environment(_environment));
-            return null;
-        }
-
-        public object VisitClassStmt(Stmt.Class stmt)
-        {
-            _environment.Define(stmt.Name.Lexeme, null);
-
-            Dictionary<string, LoxFunction> methods = new();
-            for (int i = 0; i < stmt.Methods.Count; i++)
-            {
-                LoxFunction function = new(stmt.Methods[i], _environment);
-                methods[stmt.Methods[i].Name.Lexeme] = function;
-            }
-
-            LoxClass @class = new(stmt.Name.Lexeme, methods);
-            _environment.Assign(stmt.Name, @class);
-            return null;
-        }
-
-        /// <summary>
-        /// Checks the operand of an unary expression.
-        /// </summary>
-        /// <param name="operator">The operator to apply to the operand.</param>
-        /// <param name="operand">The operand in question.</param>
-        /// <exception cref="RuntimeException">Thrown when the operand is not a <see cref="double"/>.</exception>
-        private static void CheckNumberOperand(Token @operator, object operand)
-        {
-            if (operand is double)
-            {
-                return;
-            }
-            else
-            {
-                throw new RuntimeException(@operator, "Operand must be a number.");
-            }
-        }
-
-        /// <summary>
-        /// Checks the operands of a binary expression.
-        /// </summary>
-        /// <param name="operator">The operator to apply to the operands.</param>
-        /// <param name="left">The left operand.</param>
-        /// <param name="right">The right operand.</param>
-        /// <exception cref="RuntimeException">Thrown when either operand is not a <see cref="double"/>.</exception>
-        private static void CheckNumberOperands(Token @operator, object left, object right)
-        {
-            if (left is double && right is double)
-            {
-                return;
-            }
-            else
-            {
-                throw new RuntimeException(@operator, "Operands must be numbers.");
-            }
-        }
-
-        /// <summary>
-        /// Evaluates an expression.
-        /// </summary>
-        /// <param name="expr">An <see cref="Expr"/> to evaluate.</param>
-        /// <returns>The result of the evaluation.</returns>
-        private object Evaluate(Expr expr)
-        {
-            return expr.Accept(this);
-        }
-
-        /// <summary>
-        /// Executes a statement.
-        /// </summary>
-        /// <param name="stmt">A <see cref="Stmt"/> to execute.</param>
-        private void Execute(Stmt stmt)
-        {
-            stmt.Accept(this);
-        }
-
-        /// <summary>
-        /// Saves the depth of an expression within scopes.
-        /// </summary>
-        /// <param name="expr">The expression itself.</param>
-        /// <param name="depth">The depth of the expression.</param>
-        public void Resolve(Expr expr, int depth)
-        {
-            _locals[expr] = depth;
-        }
-
-        /// <summary>
-        /// Executes a block of statements.
-        /// </summary>
-        /// <param name="statements">A <see cref="List{T}"/> of <see cref="Stmt"/> to execute.</param>
-        /// <param name="environment">The <see cref="Data.Environment"/> to execute the statements within.</param>
-        public void ExecuteBlock(List<Stmt> statements, Data.Environment environment)
-        {
-            Data.Environment previous = _environment;
-            try
-            {
-                _environment = environment;
-
-                for (int i = 0; i < statements.Count; i++)
-                {
-                    Execute(statements[i]);
-                }
-            }
-            finally
-            {
-                _environment = previous;
-            }
-        }
-
-        /// <summary>
-        /// Determines if two <see cref="object"/>s are equal.
-        /// </summary>
-        /// <param name="a">An <see cref="object"/> to compare.</param>
-        /// <param name="b">Another <see cref="object"/> to compare.</param>
-        /// <returns>Whether or not the <see cref="object"/>s are equal.</returns>
-        private static bool IsEqual(object a, object b)
-        {
-            if (a == null && b == null)
-            {
-                return true;
-            }
-            if (a == null)
-            {
-                return false;
-            }
-
-            return a.Equals(b);
-        }
-
-        /// <summary>
-        /// Determines if an object is truthy (not nil or false).
-        /// </summary>
-        /// <param name="obj">An <see cref="object"/> to test.</param>
-        /// <returns>Whether or not the <see cref="object"/> is truthy.</returns>
-        private static bool IsTruthy(object obj)
-        {
-            if (obj == null)
-            {
-                return false;
-            }
-            if (obj is bool b)
-            {
-                return b;
-            }
-
-            return true;
-        }
+        #endregion
     }
 }
