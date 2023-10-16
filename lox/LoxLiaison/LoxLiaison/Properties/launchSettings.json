@@ -1,7 +1,8 @@
 {
   "profiles": {
     "LoxLiaison": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Users\\Kai\\Downloads\\fib.lox\""
     }
   }
 }

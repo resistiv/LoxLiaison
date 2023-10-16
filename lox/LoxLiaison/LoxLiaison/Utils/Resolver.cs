@@ -160,6 +160,23 @@ namespace LoxLiaison.Utils
             Declare(stmt.Name);
             Define(stmt.Name);
 
+            if (stmt.Superclass != null)
+            {
+                if (stmt.Name.Lexeme.Equals(stmt.Superclass.Name.Lexeme))
+                {
+                    Liaison.Error(stmt.Superclass.Name, "A class can't inherit from itself.");
+                }
+
+                _currentClass = ClassType.Subclass;
+                Resolve(stmt.Superclass);
+            }
+
+            if (stmt.Superclass != null)
+            {
+                BeginScope();
+                _scopes.Peek().Add("super", true);
+            }
+
             BeginScope();
             _scopes.Peek().Add("this", true);
 
@@ -175,6 +192,11 @@ namespace LoxLiaison.Utils
             }
 
             EndScope();
+
+            if (stmt.Superclass != null)
+            {
+                EndScope();
+            }
 
             _currentClass = enclosingClass;
             return null;
@@ -308,6 +330,21 @@ namespace LoxLiaison.Utils
         {
             Resolve(expr.Value);
             Resolve(expr.Object);
+            return null;
+        }
+
+        public object VisitSuperExpr(Expr.Super expr)
+        {
+            if (_currentClass == ClassType.None)
+            {
+                Liaison.Error(expr.Keyword, "Can't use 'super' outside of a class.");
+            }
+            else if (_currentClass != ClassType.Subclass)
+            {
+                Liaison.Error(expr.Keyword, "Can't use 'super' in a class with no superclass.");
+            }
+
+            ResolveLocal(expr, expr.Keyword);
             return null;
         }
 

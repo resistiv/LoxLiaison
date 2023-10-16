@@ -1,6 +1,7 @@
 ﻿using LoxLiaison.Data;
 using LoxLiaison.Exceptions;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace LoxLiaison.Utils
 {
@@ -85,6 +86,14 @@ namespace LoxLiaison.Utils
         private Stmt ClassDeclaration()
         {
             Token name = ConsumeToken(TokenType.Identifier, "Expect class name.");
+
+            Expr.Variable superclass = null;
+            if (MatchToken(TokenType.LessThan))
+            {
+                ConsumeToken(TokenType.Identifier, "Expect superclass name.");
+                superclass = new Expr.Variable(PreviousToken());
+            }
+
             ConsumeToken(TokenType.LeftBrace, "Expect '{' before class body.");
 
             List<Stmt.Function> methods = new();
@@ -95,7 +104,7 @@ namespace LoxLiaison.Utils
 
             ConsumeToken(TokenType.RightBrace, "Expect '}' after class body.");
 
-            return new Stmt.Class(name, methods);
+            return new Stmt.Class(name, superclass, methods);
         }
 
         /// <summary>
@@ -562,6 +571,14 @@ namespace LoxLiaison.Utils
             if (MatchToken(TokenType.Number, TokenType.String))
             {
                 return new Expr.Literal(PreviousToken().Literal);
+            }
+
+            if (MatchToken(TokenType.Super))
+            {
+                Token keyword = PreviousToken();
+                ConsumeToken(TokenType.Dot, "Expect '.' after 'super'.");
+                Token method = ConsumeToken(TokenType.Identifier, "Expect superclass method name.");
+                return new Expr.Super(keyword, method);
             }
 
             if (MatchToken(TokenType.This))

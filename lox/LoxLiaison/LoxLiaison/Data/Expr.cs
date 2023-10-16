@@ -19,6 +19,7 @@ namespace LoxLiaison
             public T VisitLiteralExpr(Literal expr);
             public T VisitLogicalExpr(Logical expr);
             public T VisitSetExpr(Set expr);
+            public T VisitSuperExpr(Super expr);
             public T VisitThisExpr(This expr);
             public T VisitUnaryExpr(Unary expr);
             public T VisitVariableExpr(Variable expr);
@@ -161,6 +162,23 @@ namespace LoxLiaison
             public override T Accept<T>(IVisitor<T> visitor)
             {
                 return visitor.VisitSetExpr(this);
+            }
+        }
+
+        public class Super : Expr
+        {
+            public readonly Token Keyword;
+            public readonly Token Method;
+            
+            public Super(Token keyword, Token method)
+            {
+                this.Keyword = keyword;
+                this.Method = method;
+            }
+
+            public override T Accept<T>(IVisitor<T> visitor)
+            {
+                return visitor.VisitSuperExpr(this);
             }
         }
 

@@ -360,6 +360,23 @@ namespace LoxLiaison.Utils
             return value;
         }
 
+        public object VisitSuperExpr(Expr.Super expr)
+        {
+            int distance = _locals[expr];
+            LoxClass superclass = (LoxClass)_environment.GetAt(distance, "super");
+
+            LoxInstance obj = (LoxInstance)_environment.GetAt(distance - 1, "this");
+
+            LoxFunction method = superclass.FindMethod(expr.Method.Lexeme);
+
+            if (method == null)
+            {
+                throw new RuntimeException(expr.Method, $"Undefined property '{expr.Method.Lexeme}'.");
+            }
+
+            return method.Bind(obj);
+        }
+
         public object VisitThisExpr(Expr.This expr)
         {
             return LookUpVariable(expr.Keyword, expr);
@@ -398,7 +415,23 @@ namespace LoxLiaison.Utils
 
         public object VisitClassStmt(Stmt.Class stmt)
         {
+            object superclass = null;
+            if (stmt.Superclass != null)
+            {
+                superclass = Evaluate(stmt.Superclass);
+                if (superclass is not LoxClass)
+                {
+                    throw new RuntimeException(stmt.Superclass.Name, "Superclass must be a class.");
+                }
+            }
+
             _environment.Define(stmt.Name.Lexeme, null);
+
+            if (stmt.Superclass != null)
+            {
+                _environment = new(_environment);
+                _environment.Define("super", superclass);
+            }
 
             Dictionary<string, LoxFunction> methods = new();
 
@@ -408,7 +441,13 @@ namespace LoxLiaison.Utils
                 methods.Add(method.Name.Lexeme, func);
             }
 
-            LoxClass @class = new(stmt.Name.Lexeme, methods);
+            LoxClass @class = new(stmt.Name.Lexeme, (LoxClass)superclass, methods);
+
+            if (superclass != null)
+            {
+                _environment = _environment.Enclosing;
+            }
+
             _environment.Assign(stmt.Name, @class);
 
             return null;
