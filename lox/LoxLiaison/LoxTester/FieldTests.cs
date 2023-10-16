@@ -10,7 +10,7 @@ namespace LoxTester
 		[TestMethod]
 		public void CallFunctionFieldTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\field\\call_function_field.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\field\\call_function_field.lox");
 			Assert.AreEqual(3, output.Length);
 			Assert.AreEqual("bar", output[0]);
 			Assert.AreEqual("1", output[1]);
@@ -20,7 +20,7 @@ namespace LoxTester
 		[TestMethod]
 		public void CallNonfunctionFieldTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\field\\call_nonfunction_field.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\field\\call_nonfunction_field.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Can only call functions and classes.", output[0]);
 			Assert.AreEqual("[line 6]", output[1]);
@@ -29,7 +29,7 @@ namespace LoxTester
 		[TestMethod]
 		public void GetAndSetMethodTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\field\\get_and_set_method.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\field\\get_and_set_method.lox");
 			Assert.AreEqual(4, output.Length);
 			Assert.AreEqual("other", output[0]);
 			Assert.AreEqual("1", output[1]);
@@ -40,7 +40,7 @@ namespace LoxTester
 		[TestMethod]
 		public void GetOnBoolTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\field\\get_on_bool.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\field\\get_on_bool.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Only instances have properties.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -49,7 +49,7 @@ namespace LoxTester
 		[TestMethod]
 		public void GetOnClassTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\field\\get_on_class.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\field\\get_on_class.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Only instances have properties.", output[0]);
 			Assert.AreEqual("[line 2]", output[1]);
@@ -58,7 +58,7 @@ namespace LoxTester
 		[TestMethod]
 		public void GetOnFunctionTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\field\\get_on_function.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\field\\get_on_function.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Only instances have properties.", output[0]);
 			Assert.AreEqual("[line 3]", output[1]);
@@ -67,7 +67,7 @@ namespace LoxTester
 		[TestMethod]
 		public void GetOnNilTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\field\\get_on_nil.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\field\\get_on_nil.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Only instances have properties.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -76,7 +76,7 @@ namespace LoxTester
 		[TestMethod]
 		public void GetOnNumTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\field\\get_on_num.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\field\\get_on_num.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Only instances have properties.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -85,7 +85,7 @@ namespace LoxTester
 		[TestMethod]
 		public void GetOnStringTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\field\\get_on_string.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\field\\get_on_string.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Only instances have properties.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -94,7 +94,7 @@ namespace LoxTester
 		[TestMethod]
 		public void ManyTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\field\\many.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\field\\many.lox");
 			Assert.AreEqual(79, output.Length);
 			Assert.AreEqual("apple", output[0]);
 			Assert.AreEqual("apricot", output[1]);
@@ -180,7 +180,7 @@ namespace LoxTester
 		[TestMethod]
 		public void MethodTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\field\\method.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\field\\method.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("got method", output[0]);
 			Assert.AreEqual("arg", output[1]);
@@ -189,7 +189,7 @@ namespace LoxTester
 		[TestMethod]
 		public void MethodBindsThisTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\field\\method_binds_this.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\field\\method_binds_this.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("foo1", output[0]);
 			Assert.AreEqual("1", output[1]);
@@ -198,7 +198,7 @@ namespace LoxTester
 		[TestMethod]
 		public void OnInstanceTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\field\\on_instance.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\field\\on_instance.lox");
 			Assert.AreEqual(4, output.Length);
 			Assert.AreEqual("bar value", output[0]);
 			Assert.AreEqual("baz value", output[1]);
@@ -209,7 +209,7 @@ namespace LoxTester
 		[TestMethod]
 		public void SetEvaluationOrderTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\field\\set_evaluation_order.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\field\\set_evaluation_order.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Undefined variable 'undefined1'.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -218,7 +218,7 @@ namespace LoxTester
 		[TestMethod]
 		public void SetOnBoolTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\field\\set_on_bool.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\field\\set_on_bool.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Only instances have fields.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -227,7 +227,7 @@ namespace LoxTester
 		[TestMethod]
 		public void SetOnClassTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\field\\set_on_class.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\field\\set_on_class.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Only instances have fields.", output[0]);
 			Assert.AreEqual("[line 2]", output[1]);
@@ -236,7 +236,7 @@ namespace LoxTester
 		[TestMethod]
 		public void SetOnFunctionTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\field\\set_on_function.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\field\\set_on_function.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Only instances have fields.", output[0]);
 			Assert.AreEqual("[line 3]", output[1]);
@@ -245,7 +245,7 @@ namespace LoxTester
 		[TestMethod]
 		public void SetOnNilTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\field\\set_on_nil.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\field\\set_on_nil.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Only instances have fields.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -254,7 +254,7 @@ namespace LoxTester
 		[TestMethod]
 		public void SetOnNumTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\field\\set_on_num.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\field\\set_on_num.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Only instances have fields.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -263,7 +263,7 @@ namespace LoxTester
 		[TestMethod]
 		public void SetOnStringTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\field\\set_on_string.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\field\\set_on_string.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Only instances have fields.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -272,7 +272,7 @@ namespace LoxTester
 		[TestMethod]
 		public void UndefinedTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\field\\undefined.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\field\\undefined.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Undefined property 'bar'.", output[0]);
 			Assert.AreEqual("[line 4]", output[1]);

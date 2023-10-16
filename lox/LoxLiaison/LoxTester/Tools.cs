@@ -24,9 +24,13 @@ namespace LoxTester
             // Reset console output and write out output
             Console.SetOut(original);
             Console.WriteLine(sw.ToString());
-            
+
+            // Reset the liaison to clear out state (errors, interpreter gunk)
+            Liaison.DebugReset();
+            //GC.Collect();
+
             // Return captured output
-            return sw.ToString().Trim().Split(Environment.NewLine);
+            return sw.ToString().Trim().Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
         }
     }
 }

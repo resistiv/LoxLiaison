@@ -100,7 +100,7 @@ namespace LoxLiaison.Utils
         /// <param name="operator">The operator to apply to the operand.</param>
         /// <param name="operand">The operand in question.</param>
         /// <exception cref="RuntimeException">Thrown when the operand is not a <see cref="double"/>.</exception>
-        private static void CheckNumberOperand(Token @operator, object operand)
+        private void CheckNumberOperand(Token @operator, object operand)
         {
             if (operand is double)
             {
@@ -119,7 +119,7 @@ namespace LoxLiaison.Utils
         /// <param name="left">The left operand.</param>
         /// <param name="right">The right operand.</param>
         /// <exception cref="RuntimeException">Thrown when either operand is not a <see cref="double"/>.</exception>
-        private static void CheckNumberOperands(Token @operator, object left, object right)
+        private void CheckNumberOperands(Token @operator, object left, object right)
         {
             if (left is double && right is double)
             {
@@ -137,7 +137,7 @@ namespace LoxLiaison.Utils
         /// <param name="a">An <see cref="object"/> to compare.</param>
         /// <param name="b">Another <see cref="object"/> to compare.</param>
         /// <returns>Whether or not the <see cref="object"/>s are equal.</returns>
-        private static bool IsEqual(object a, object b)
+        private bool IsEqual(object a, object b)
         {
             if (a == null && b == null)
             {
@@ -156,7 +156,7 @@ namespace LoxLiaison.Utils
         /// </summary>
         /// <param name="obj">An <see cref="object"/> to test.</param>
         /// <returns>Whether or not the <see cref="object"/> is truthy.</returns>
-        private static bool IsTruthy(object obj)
+        private bool IsTruthy(object obj)
         {
             if (obj == null)
             {
@@ -193,7 +193,7 @@ namespace LoxLiaison.Utils
         /// </summary>
         /// <param name="obj">An <see cref="object"/> to convert.</param>
         /// <returns>A <see cref="string"/> representation of the <see cref="object"/>.</returns>
-        private static string Stringify(object obj)
+        private string Stringify(object obj)
         {
             if (obj == null)
             {

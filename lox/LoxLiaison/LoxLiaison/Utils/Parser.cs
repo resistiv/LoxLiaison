@@ -1,7 +1,6 @@
 ﻿using LoxLiaison.Data;
 using LoxLiaison.Exceptions;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace LoxLiaison.Utils
 {
@@ -697,7 +696,7 @@ namespace LoxLiaison.Utils
         /// <param name="token">A <see cref="Token"/> that caused the error.</param>
         /// <param name="message">A message detailing the error.</param>
         /// <returns>A <see cref="ParsingException"/>.</returns>
-        private static ParsingException Error(Token token, string message)
+        private ParsingException Error(Token token, string message)
         {
             Liaison.Error(token, message);
             return new ParsingException();

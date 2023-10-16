@@ -10,7 +10,7 @@ namespace LoxTester
 		[TestMethod]
 		public void EmptyFileTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\empty_file.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\empty_file.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("", output[0]);
 		}
@@ -18,7 +18,7 @@ namespace LoxTester
 		[TestMethod]
 		public void PrecedenceTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\precedence.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\precedence.lox");
 			Assert.AreEqual(13, output.Length);
 			Assert.AreEqual("14", output[0]);
 			Assert.AreEqual("8", output[1]);
@@ -38,7 +38,7 @@ namespace LoxTester
 		[TestMethod]
 		public void UnexpectedCharacterTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\unexpected_character.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\unexpected_character.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("[line 3] Error: Unexpected character.", output[0]);
 			Assert.AreEqual("[line 3] Error at 'b': Expect ')' after arguments.", output[1]);

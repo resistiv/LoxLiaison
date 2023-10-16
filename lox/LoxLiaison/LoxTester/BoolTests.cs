@@ -10,7 +10,7 @@ namespace LoxTester
 		[TestMethod]
 		public void EqualityTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\bool\\equality.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\bool\\equality.lox");
 			Assert.AreEqual(18, output.Length);
 			Assert.AreEqual("True", output[0]);
 			Assert.AreEqual("False", output[1]);
@@ -35,7 +35,7 @@ namespace LoxTester
 		[TestMethod]
 		public void NotTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\bool\\not.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\bool\\not.lox");
 			Assert.AreEqual(3, output.Length);
 			Assert.AreEqual("False", output[0]);
 			Assert.AreEqual("True", output[1]);

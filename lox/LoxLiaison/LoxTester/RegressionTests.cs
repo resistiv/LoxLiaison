@@ -10,7 +10,7 @@ namespace LoxTester
 		[TestMethod]
 		public void M394Test()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\regression\\394.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\regression\\394.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("B", output[0]);
 		}
@@ -18,7 +18,7 @@ namespace LoxTester
 		[TestMethod]
 		public void M40Test()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\regression\\40.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\regression\\40.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("False", output[0]);
 		}

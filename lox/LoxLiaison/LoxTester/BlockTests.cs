@@ -10,7 +10,7 @@ namespace LoxTester
 		[TestMethod]
 		public void EmptyTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\block\\empty.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\block\\empty.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("ok", output[0]);
 		}
@@ -18,7 +18,7 @@ namespace LoxTester
 		[TestMethod]
 		public void ScopeTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\block\\scope.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\block\\scope.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("inner", output[0]);
 			Assert.AreEqual("outer", output[1]);

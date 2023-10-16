@@ -10,7 +10,7 @@ namespace LoxTester
 		[TestMethod]
 		public void ClosureTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\this\\closure.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\this\\closure.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("Foo", output[0]);
 		}
@@ -18,7 +18,7 @@ namespace LoxTester
 		[TestMethod]
 		public void NestedClassTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\this\\nested_class.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\this\\nested_class.lox");
 			Assert.AreEqual(3, output.Length);
 			Assert.AreEqual("Outer instance", output[0]);
 			Assert.AreEqual("Outer instance", output[1]);
@@ -28,7 +28,7 @@ namespace LoxTester
 		[TestMethod]
 		public void NestedClosureTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\this\\nested_closure.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\this\\nested_closure.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("Foo", output[0]);
 		}
@@ -36,7 +36,7 @@ namespace LoxTester
 		[TestMethod]
 		public void ThisAtTopLevelTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\this\\this_at_top_level.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\this\\this_at_top_level.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("[line 1] Error at 'this': Can't use 'this' outside of a class.", output[0]);
 		}
@@ -44,7 +44,7 @@ namespace LoxTester
 		[TestMethod]
 		public void ThisInMethodTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\this\\this_in_method.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\this\\this_in_method.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("baz", output[0]);
 		}
@@ -52,7 +52,7 @@ namespace LoxTester
 		[TestMethod]
 		public void ThisInTopLevelFunctionTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\this\\this_in_top_level_function.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\this\\this_in_top_level_function.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("[line 2] Error at 'this': Can't use 'this' outside of a class.", output[0]);
 		}

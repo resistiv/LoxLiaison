@@ -10,7 +10,7 @@ namespace LoxTester
 		[TestMethod]
 		public void AssociativityTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\assignment\\associativity.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\assignment\\associativity.lox");
 			Assert.AreEqual(3, output.Length);
 			Assert.AreEqual("c", output[0]);
 			Assert.AreEqual("c", output[1]);
@@ -20,7 +20,7 @@ namespace LoxTester
 		[TestMethod]
 		public void GlobalTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\assignment\\global.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\assignment\\global.lox");
 			Assert.AreEqual(4, output.Length);
 			Assert.AreEqual("before", output[0]);
 			Assert.AreEqual("after", output[1]);
@@ -31,7 +31,7 @@ namespace LoxTester
 		[TestMethod]
 		public void GroupingTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\assignment\\grouping.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\assignment\\grouping.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("[line 2] Error at '=': Invalid assignment target.", output[0]);
 		}
@@ -39,7 +39,7 @@ namespace LoxTester
 		[TestMethod]
 		public void InfixOperatorTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\assignment\\infix_operator.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\assignment\\infix_operator.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("[line 3] Error at '=': Invalid assignment target.", output[0]);
 		}
@@ -47,7 +47,7 @@ namespace LoxTester
 		[TestMethod]
 		public void LocalTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\assignment\\local.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\assignment\\local.lox");
 			Assert.AreEqual(4, output.Length);
 			Assert.AreEqual("before", output[0]);
 			Assert.AreEqual("after", output[1]);
@@ -58,7 +58,7 @@ namespace LoxTester
 		[TestMethod]
 		public void PrefixOperatorTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\assignment\\prefix_operator.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\assignment\\prefix_operator.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("[line 2] Error at '=': Invalid assignment target.", output[0]);
 		}
@@ -66,7 +66,7 @@ namespace LoxTester
 		[TestMethod]
 		public void SyntaxTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\assignment\\syntax.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\assignment\\syntax.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("var", output[0]);
 			Assert.AreEqual("var", output[1]);
@@ -75,7 +75,7 @@ namespace LoxTester
 		[TestMethod]
 		public void ToThisTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\assignment\\to_this.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\assignment\\to_this.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("[line 3] Error at '=': Invalid assignment target.", output[0]);
 		}
@@ -83,7 +83,7 @@ namespace LoxTester
 		[TestMethod]
 		public void UndefinedTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\assignment\\undefined.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\assignment\\undefined.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Undefined variable 'unknown'.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);

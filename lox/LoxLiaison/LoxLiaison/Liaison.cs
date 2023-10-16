@@ -12,7 +12,7 @@ namespace LoxLiaison
     /// </summary>
     public class Liaison
     {
-        private static readonly Interpreter interpreter = new();
+        private static Interpreter interpreter = new();
         private static bool HadError = false;
         private static bool HadRuntimeError = false;
 
@@ -78,8 +78,6 @@ namespace LoxLiaison
             // Stop if we encountered a syntax error.
             if (HadError)
             {
-                // Fix for unit testing
-                HadError = false;
                 return;
             }
 
@@ -88,8 +86,6 @@ namespace LoxLiaison
 
             if (HadError)
             {
-                // Fix for unit testing
-                HadError = false;
                 return;
             }
 
@@ -143,6 +139,13 @@ namespace LoxLiaison
         {
             Console.WriteLine($"[line {line}] Error{where}: {message}");
             HadError = true;
+        }
+
+        public static void DebugReset()
+        {
+            interpreter = new();
+            HadError = false;
+            HadRuntimeError = false;
         }
     }
 }

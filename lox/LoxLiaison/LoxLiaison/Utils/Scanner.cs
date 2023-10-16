@@ -160,7 +160,7 @@ namespace LoxLiaison.Utils
                     }
                     else
                     {
-                        Liaison.Error(_line, $"Unexpected character '{c}'.");
+                        Liaison.Error(_line, $"Unexpected character.");
                     }
                     break;
             }

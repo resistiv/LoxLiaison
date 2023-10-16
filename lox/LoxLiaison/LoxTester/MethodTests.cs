@@ -10,7 +10,7 @@ namespace LoxTester
 		[TestMethod]
 		public void ArityTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\method\\arity.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\method\\arity.lox");
 			Assert.AreEqual(9, output.Length);
 			Assert.AreEqual("no args", output[0]);
 			Assert.AreEqual("1", output[1]);
@@ -26,7 +26,7 @@ namespace LoxTester
 		[TestMethod]
 		public void EmptyBlockTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\method\\empty_block.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\method\\empty_block.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("nil", output[0]);
 		}
@@ -34,7 +34,7 @@ namespace LoxTester
 		[TestMethod]
 		public void ExtraArgumentsTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\method\\extra_arguments.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\method\\extra_arguments.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Expected 2 arguments but got 4.", output[0]);
 			Assert.AreEqual("[line 8]", output[1]);
@@ -43,7 +43,7 @@ namespace LoxTester
 		[TestMethod]
 		public void MissingArgumentsTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\method\\missing_arguments.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\method\\missing_arguments.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Expected 2 arguments but got 1.", output[0]);
 			Assert.AreEqual("[line 5]", output[1]);
@@ -52,7 +52,7 @@ namespace LoxTester
 		[TestMethod]
 		public void NotFoundTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\method\\not_found.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\method\\not_found.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Undefined property 'unknown'.", output[0]);
 			Assert.AreEqual("[line 3]", output[1]);
@@ -61,7 +61,7 @@ namespace LoxTester
 		[TestMethod]
 		public void PrintBoundMethodTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\method\\print_bound_method.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\method\\print_bound_method.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("<fn method>", output[0]);
 		}
@@ -69,7 +69,7 @@ namespace LoxTester
 		[TestMethod]
 		public void ReferToNameTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\method\\refer_to_name.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\method\\refer_to_name.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Undefined variable 'method'.", output[0]);
 			Assert.AreEqual("[line 3]", output[1]);
@@ -78,7 +78,7 @@ namespace LoxTester
 		[TestMethod]
 		public void TooManyArgumentsTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\method\\too_many_arguments.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\method\\too_many_arguments.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("[line 259] Error at 'a': Can't have more than 255 arguments.", output[0]);
 		}
@@ -86,7 +86,7 @@ namespace LoxTester
 		[TestMethod]
 		public void TooManyParametersTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\method\\too_many_parameters.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\method\\too_many_parameters.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("[line 258] Error at 'a': Can't have more than 255 parameters.", output[0]);
 		}

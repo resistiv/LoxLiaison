@@ -100,6 +100,7 @@ namespace LoxTestGenerator
             sb.AppendLine("}");
 
             File.WriteAllText($"{outDir}\\{Path.GetFileName(className)}.cs", sb.ToString());
+            Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] Wrote {className}.cs");
         }
 
         private static string[] GetExpectations(string file)
@@ -133,6 +134,11 @@ namespace LoxTestGenerator
                         }
                     }
                 }
+                // Edge case ignore c line
+                else if (lines[i].Contains("[c line "))
+                {
+                    continue;
+                }
                 // Edge case line error expectations
                 else if (lines[i].Contains("[line ") || lines[i].Contains("[java line "))
                 {
@@ -142,7 +148,7 @@ namespace LoxTestGenerator
                         lines[i] = lines[i].Replace("[java line ", "[line ");
                     }
                     // Trim off leading comment
-                    expectations.Add(lines[i][3..]);
+                    expectations.Add(lines[i].TrimStart()[3..]);
                 }
                 // Plain errors
                 else if (lines[i].Contains(" Error"))

@@ -10,7 +10,7 @@ namespace LoxTester
 		[TestMethod]
 		public void AddTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\add.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\add.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("579", output[0]);
 			Assert.AreEqual("string", output[1]);
@@ -19,7 +19,7 @@ namespace LoxTester
 		[TestMethod]
 		public void AddBoolNilTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\add_bool_nil.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\add_bool_nil.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Operands must be two numbers or two strings.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -28,7 +28,7 @@ namespace LoxTester
 		[TestMethod]
 		public void AddBoolNumTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\add_bool_num.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\add_bool_num.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Operands must be two numbers or two strings.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -37,7 +37,7 @@ namespace LoxTester
 		[TestMethod]
 		public void AddBoolStringTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\add_bool_string.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\add_bool_string.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Operands must be two numbers or two strings.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -46,7 +46,7 @@ namespace LoxTester
 		[TestMethod]
 		public void AddNilNilTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\add_nil_nil.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\add_nil_nil.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Operands must be two numbers or two strings.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -55,7 +55,7 @@ namespace LoxTester
 		[TestMethod]
 		public void AddNumNilTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\add_num_nil.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\add_num_nil.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Operands must be two numbers or two strings.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -64,7 +64,7 @@ namespace LoxTester
 		[TestMethod]
 		public void AddStringNilTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\add_string_nil.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\add_string_nil.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Operands must be two numbers or two strings.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -73,7 +73,7 @@ namespace LoxTester
 		[TestMethod]
 		public void ComparisonTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\comparison.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\comparison.lox");
 			Assert.AreEqual(20, output.Length);
 			Assert.AreEqual("True", output[0]);
 			Assert.AreEqual("False", output[1]);
@@ -100,7 +100,7 @@ namespace LoxTester
 		[TestMethod]
 		public void DivideTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\divide.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\divide.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("4", output[0]);
 			Assert.AreEqual("1", output[1]);
@@ -109,7 +109,7 @@ namespace LoxTester
 		[TestMethod]
 		public void DivideNonnumNumTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\divide_nonnum_num.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\divide_nonnum_num.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Operands must be numbers.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -118,7 +118,7 @@ namespace LoxTester
 		[TestMethod]
 		public void DivideNumNonnumTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\divide_num_nonnum.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\divide_num_nonnum.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Operands must be numbers.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -127,7 +127,7 @@ namespace LoxTester
 		[TestMethod]
 		public void EqualsTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\equals.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\equals.lox");
 			Assert.AreEqual(10, output.Length);
 			Assert.AreEqual("True", output[0]);
 			Assert.AreEqual("True", output[1]);
@@ -144,7 +144,7 @@ namespace LoxTester
 		[TestMethod]
 		public void EqualsClassTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\equals_class.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\equals_class.lox");
 			Assert.AreEqual(8, output.Length);
 			Assert.AreEqual("True", output[0]);
 			Assert.AreEqual("False", output[1]);
@@ -159,7 +159,7 @@ namespace LoxTester
 		[TestMethod]
 		public void EqualsMethodTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\equals_method.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\equals_method.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("True", output[0]);
 			Assert.AreEqual("False", output[1]);
@@ -168,7 +168,7 @@ namespace LoxTester
 		[TestMethod]
 		public void GreaterNonnumNumTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\greater_nonnum_num.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\greater_nonnum_num.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Operands must be numbers.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -177,7 +177,7 @@ namespace LoxTester
 		[TestMethod]
 		public void GreaterNumNonnumTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\greater_num_nonnum.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\greater_num_nonnum.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Operands must be numbers.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -186,7 +186,7 @@ namespace LoxTester
 		[TestMethod]
 		public void GreaterOrEqualNonnumNumTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\greater_or_equal_nonnum_num.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\greater_or_equal_nonnum_num.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Operands must be numbers.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -195,7 +195,7 @@ namespace LoxTester
 		[TestMethod]
 		public void GreaterOrEqualNumNonnumTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\greater_or_equal_num_nonnum.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\greater_or_equal_num_nonnum.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Operands must be numbers.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -204,7 +204,7 @@ namespace LoxTester
 		[TestMethod]
 		public void LessNonnumNumTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\less_nonnum_num.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\less_nonnum_num.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Operands must be numbers.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -213,7 +213,7 @@ namespace LoxTester
 		[TestMethod]
 		public void LessNumNonnumTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\less_num_nonnum.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\less_num_nonnum.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Operands must be numbers.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -222,7 +222,7 @@ namespace LoxTester
 		[TestMethod]
 		public void LessOrEqualNonnumNumTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\less_or_equal_nonnum_num.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\less_or_equal_nonnum_num.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Operands must be numbers.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -231,7 +231,7 @@ namespace LoxTester
 		[TestMethod]
 		public void LessOrEqualNumNonnumTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\less_or_equal_num_nonnum.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\less_or_equal_num_nonnum.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Operands must be numbers.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -240,7 +240,7 @@ namespace LoxTester
 		[TestMethod]
 		public void MultiplyTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\multiply.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\multiply.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("15", output[0]);
 			Assert.AreEqual("3.702", output[1]);
@@ -249,7 +249,7 @@ namespace LoxTester
 		[TestMethod]
 		public void MultiplyNonnumNumTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\multiply_nonnum_num.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\multiply_nonnum_num.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Operands must be numbers.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -258,7 +258,7 @@ namespace LoxTester
 		[TestMethod]
 		public void MultiplyNumNonnumTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\multiply_num_nonnum.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\multiply_num_nonnum.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Operands must be numbers.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -267,7 +267,7 @@ namespace LoxTester
 		[TestMethod]
 		public void NegateTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\negate.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\negate.lox");
 			Assert.AreEqual(3, output.Length);
 			Assert.AreEqual("-3", output[0]);
 			Assert.AreEqual("3", output[1]);
@@ -277,7 +277,7 @@ namespace LoxTester
 		[TestMethod]
 		public void NegateNonnumTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\negate_nonnum.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\negate_nonnum.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Operand must be a number.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -286,7 +286,7 @@ namespace LoxTester
 		[TestMethod]
 		public void NotTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\not.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\not.lox");
 			Assert.AreEqual(8, output.Length);
 			Assert.AreEqual("False", output[0]);
 			Assert.AreEqual("True", output[1]);
@@ -301,7 +301,7 @@ namespace LoxTester
 		[TestMethod]
 		public void NotClassTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\not_class.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\not_class.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("False", output[0]);
 			Assert.AreEqual("False", output[1]);
@@ -310,7 +310,7 @@ namespace LoxTester
 		[TestMethod]
 		public void NotEqualsTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\not_equals.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\not_equals.lox");
 			Assert.AreEqual(10, output.Length);
 			Assert.AreEqual("False", output[0]);
 			Assert.AreEqual("False", output[1]);
@@ -327,7 +327,7 @@ namespace LoxTester
 		[TestMethod]
 		public void SubtractTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\subtract.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\subtract.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("1", output[0]);
 			Assert.AreEqual("0", output[1]);
@@ -336,7 +336,7 @@ namespace LoxTester
 		[TestMethod]
 		public void SubtractNonnumNumTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\subtract_nonnum_num.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\subtract_nonnum_num.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Operands must be numbers.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);
@@ -345,7 +345,7 @@ namespace LoxTester
 		[TestMethod]
 		public void SubtractNumNonnumTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\operator\\subtract_num_nonnum.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\operator\\subtract_num_nonnum.lox");
 			Assert.AreEqual(2, output.Length);
 			Assert.AreEqual("Operands must be numbers.", output[0]);
 			Assert.AreEqual("[line 1]", output[1]);

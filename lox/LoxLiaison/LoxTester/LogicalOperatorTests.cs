@@ -10,7 +10,7 @@ namespace LoxTester
 		[TestMethod]
 		public void AndTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\logical_operator\\and.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\logical_operator\\and.lox");
 			Assert.AreEqual(7, output.Length);
 			Assert.AreEqual("False", output[0]);
 			Assert.AreEqual("1", output[1]);
@@ -24,7 +24,7 @@ namespace LoxTester
 		[TestMethod]
 		public void AndTruthTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\logical_operator\\and_truth.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\logical_operator\\and_truth.lox");
 			Assert.AreEqual(5, output.Length);
 			Assert.AreEqual("False", output[0]);
 			Assert.AreEqual("nil", output[1]);
@@ -36,7 +36,7 @@ namespace LoxTester
 		[TestMethod]
 		public void OrTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\logical_operator\\or.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\logical_operator\\or.lox");
 			Assert.AreEqual(7, output.Length);
 			Assert.AreEqual("1", output[0]);
 			Assert.AreEqual("1", output[1]);
@@ -50,7 +50,7 @@ namespace LoxTester
 		[TestMethod]
 		public void OrTruthTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\logical_operator\\or_truth.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\logical_operator\\or_truth.lox");
 			Assert.AreEqual(5, output.Length);
 			Assert.AreEqual("ok", output[0]);
 			Assert.AreEqual("ok", output[1]);

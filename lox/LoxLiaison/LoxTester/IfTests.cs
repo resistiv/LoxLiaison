@@ -10,7 +10,7 @@ namespace LoxTester
 		[TestMethod]
 		public void ClassInElseTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\if\\class_in_else.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\if\\class_in_else.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("[line 2] Error at 'class': Expect expression.", output[0]);
 		}
@@ -18,7 +18,7 @@ namespace LoxTester
 		[TestMethod]
 		public void ClassInThenTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\if\\class_in_then.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\if\\class_in_then.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("[line 2] Error at 'class': Expect expression.", output[0]);
 		}
@@ -26,7 +26,7 @@ namespace LoxTester
 		[TestMethod]
 		public void DanglingElseTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\if\\dangling_else.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\if\\dangling_else.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("good", output[0]);
 		}
@@ -34,7 +34,7 @@ namespace LoxTester
 		[TestMethod]
 		public void ElseTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\if\\else.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\if\\else.lox");
 			Assert.AreEqual(3, output.Length);
 			Assert.AreEqual("good", output[0]);
 			Assert.AreEqual("good", output[1]);
@@ -44,7 +44,7 @@ namespace LoxTester
 		[TestMethod]
 		public void FunInElseTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\if\\fun_in_else.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\if\\fun_in_else.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("[line 2] Error at 'fun': Expect expression.", output[0]);
 		}
@@ -52,7 +52,7 @@ namespace LoxTester
 		[TestMethod]
 		public void FunInThenTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\if\\fun_in_then.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\if\\fun_in_then.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("[line 2] Error at 'fun': Expect expression.", output[0]);
 		}
@@ -60,7 +60,7 @@ namespace LoxTester
 		[TestMethod]
 		public void IfTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\if\\if.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\if\\if.lox");
 			Assert.AreEqual(3, output.Length);
 			Assert.AreEqual("good", output[0]);
 			Assert.AreEqual("block", output[1]);
@@ -70,7 +70,7 @@ namespace LoxTester
 		[TestMethod]
 		public void TruthTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\if\\truth.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\if\\truth.lox");
 			Assert.AreEqual(5, output.Length);
 			Assert.AreEqual("False", output[0]);
 			Assert.AreEqual("nil", output[1]);
@@ -82,7 +82,7 @@ namespace LoxTester
 		[TestMethod]
 		public void VarInElseTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\if\\var_in_else.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\if\\var_in_else.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("[line 2] Error at 'var': Expect expression.", output[0]);
 		}
@@ -90,7 +90,7 @@ namespace LoxTester
 		[TestMethod]
 		public void VarInThenTest()
 		{
-			string[] output = Tools.RunFile("C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\if\\var_in_then.lox");
+			string[] output = Tools.RunFile("C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\\\LoxTester\\Tests\\if\\var_in_then.lox");
 			Assert.AreEqual(1, output.Length);
 			Assert.AreEqual("[line 2] Error at 'var': Expect expression.", output[0]);
 		}

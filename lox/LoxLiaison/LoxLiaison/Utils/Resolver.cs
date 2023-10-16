@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace LoxLiaison.Utils
 {
+    /// <summary>
+    /// Handles resolving and binding.
+    /// </summary>
     public class Resolver : Expr.IVisitor<object>, Stmt.IVisitor<object>
     {
         private readonly Interpreter _interpreter;
@@ -170,10 +173,7 @@ namespace LoxLiaison.Utils
 
                 _currentClass = ClassType.Subclass;
                 Resolve(stmt.Superclass);
-            }
 
-            if (stmt.Superclass != null)
-            {
                 BeginScope();
                 _scopes.Peek().Add("super", true);
             }
@@ -370,7 +370,8 @@ namespace LoxLiaison.Utils
         public object VisitVariableExpr(Expr.Variable expr)
         {
             //if (_scopes.Count != 0 && _scopes.Peek().TryGetValue(expr.Name.Lexeme, out bool outVal) && outVal == false)
-            if (_scopes.Count != 0 && _scopes.Peek()[expr.Name.Lexeme] == false)
+            //if (_scopes.Count != 0 && _scopes.Peek()[expr.Name.Lexeme] == false)
+            if (_scopes.Count != 0 && _scopes.Peek().ContainsKey(expr.Name.Lexeme) && _scopes.Peek()[expr.Name.Lexeme] == false)
             {
                 Liaison.Error(expr.Name, "Can't read local variable in its own initializer.");
             }
