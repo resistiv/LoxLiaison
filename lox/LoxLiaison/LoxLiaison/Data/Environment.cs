@@ -31,7 +31,7 @@ namespace LoxLiaison.Data
         /// <param name="value">The value of the variable.</param>
         public void Define(string name, object value)
         {
-            Values.Add(name, value);
+            Values[name] = value;
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace LoxLiaison.Data
         /// <param name="value"></param>
         public void AssignAt(int distance, Token name, object value)
         {
-            Ancestor(distance).Values.Add(name.Lexeme, value);
+            Ancestor(distance).Values[name.Lexeme] = value;
         }
     }
 }

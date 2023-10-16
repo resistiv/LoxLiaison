@@ -22,6 +22,13 @@ namespace LoxLiaison
         /// <param name="path">A path to a Lox file.</param>
         public static void RunFile(string path)
         {
+            // Is our user sane? Let's find out!
+            if (!File.Exists(path))
+            {
+                Console.WriteLine($"Could not access file '{path}', aborting.");
+                System.Environment.Exit(65);
+            }
+
             string fileContents = File.ReadAllText(path);
             Run(fileContents);
 
@@ -60,7 +67,7 @@ namespace LoxLiaison
         /// Runs some quantity of Lox code.
         /// </summary>
         /// <param name="source">A piece of Lox code.</param>
-        private static void Run(string source)
+        public static void Run(string source)
         {
             Scanner scanner = new(source);
             List<Token> tokens = scanner.ScanTokens();
@@ -71,6 +78,8 @@ namespace LoxLiaison
             // Stop if we encountered a syntax error.
             if (HadError)
             {
+                // Fix for unit testing
+                HadError = false;
                 return;
             }
 
@@ -79,6 +88,8 @@ namespace LoxLiaison
 
             if (HadError)
             {
+                // Fix for unit testing
+                HadError = false;
                 return;
             }
 
@@ -108,7 +119,7 @@ namespace LoxLiaison
             }
             else
             {
-                Report(token.Line, $"at '{token.Lexeme}'", message);
+                Report(token.Line, $" at '{token.Lexeme}'", message);
             }
         }
 
@@ -118,7 +129,7 @@ namespace LoxLiaison
         /// <param name="error">The <see cref="RuntimeException"/> representing the error.</param>
         public static void RuntimeError(RuntimeException error)
         {
-            Console.WriteLine($"{error.Message}\n[line {error.Token.Line}]");
+            Console.WriteLine($"{error.Message}{System.Environment.NewLine}[line {error.Token.Line}]");
             HadRuntimeError = true;
         }
 
@@ -130,7 +141,7 @@ namespace LoxLiaison
         /// <param name="message">A message.</param>
         private static void Report(int line, string where, string message)
         {
-            Console.WriteLine($"[line {line}] Error in {where}: {message}");
+            Console.WriteLine($"[line {line}] Error{where}: {message}");
             HadError = true;
         }
     }
