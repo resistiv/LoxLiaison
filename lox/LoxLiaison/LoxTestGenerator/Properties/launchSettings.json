@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "LoxTestGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\" \"C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTestGenerator\\bin\\Debug\\net6.0\\test\""
+    }
+  }
+}

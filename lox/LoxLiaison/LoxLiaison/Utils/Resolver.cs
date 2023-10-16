@@ -78,6 +78,7 @@ namespace LoxLiaison.Utils
             //for (int i = _scopes.Count - 1; i >= 0; i--)
             {
                 if (_scopes.ToArray()[i].ContainsKey(name.Lexeme))
+                //if (_scopes.ToArray()[_scopes.Count - 1 - i].ContainsKey(name.Lexeme))
                 {
                     _interpreter.Resolve(expr, i);
                     //_interpreter.Resolve(expr, _scopes.Count - 1 - i);
@@ -125,7 +126,7 @@ namespace LoxLiaison.Utils
                 Liaison.Error(name, "Already a variable with this name in this scope.");
             }
 
-            scope.Add(name.Lexeme, false);
+            scope[name.Lexeme] = false;
         }
 
         /// <summary>
@@ -368,7 +369,8 @@ namespace LoxLiaison.Utils
 
         public object VisitVariableExpr(Expr.Variable expr)
         {
-            if (_scopes.Count != 0 && !_scopes.Peek()[expr.Name.Lexeme])
+            //if (_scopes.Count != 0 && _scopes.Peek().TryGetValue(expr.Name.Lexeme, out bool outVal) && outVal == false)
+            if (_scopes.Count != 0 && _scopes.Peek()[expr.Name.Lexeme] == false)
             {
                 Liaison.Error(expr.Name, "Can't read local variable in its own initializer.");
             }

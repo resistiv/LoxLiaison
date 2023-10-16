@@ -2,7 +2,7 @@
   "profiles": {
     "LoxLiaison": {
       "commandName": "Project",
-      "commandLineArgs": "\"C:\\Users\\Kai\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\assignment\\local.lox\""
+      "commandLineArgs": "\"C:\\Users\\nesmi\\source\\repos\\cs503\\lox\\LoxLiaison\\LoxTester\\Tests\\variable\\early_bound.lox\""
     }
   }
 }

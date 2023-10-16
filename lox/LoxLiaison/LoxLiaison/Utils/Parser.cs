@@ -598,7 +598,7 @@ namespace LoxLiaison.Utils
                 return new Expr.Grouping(expr);
             }
 
-            throw Error(Peek(), "Expected expression.");
+            throw Error(Peek(), "Expect expression.");
         }
 
         /// <summary>
