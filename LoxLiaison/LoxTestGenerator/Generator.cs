@@ -99,7 +99,7 @@ namespace LoxTestGenerator
             sb.AppendLine("\t}");
             sb.AppendLine("}");
 
-            File.WriteAllText($"{outDir}\\{Path.GetFileName(className)}.cs", sb.ToString());
+            File.WriteAllText($"{outDir}{Path.DirectorySeparatorChar}{Path.GetFileName(className)}.cs", sb.ToString());
             Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] Wrote {className}.cs");
         }
 
