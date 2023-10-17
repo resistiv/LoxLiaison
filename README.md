@@ -5,25 +5,25 @@ LL has been tested on Windows 10 and Ubuntu 22.04; if you'd like to test it on y
 
 ## Usage
 When run without an argument, LL operates as a <abbr title="read-eval-print loop">REPL</abbr> prompt which runs until it encounters an exit code. Otherwise, when given a Lox source file, LL will attempt to execute it and then exit.
-```console
+```
 LoxLiaison [Lox source file]
 ```
 
 ## Building
 Building and running LoxLiaison requires the .NET 6.0 SDK. It can be installed via a package manager, such as ``apt`` or ``snap``, or from the [.NET download website](https://dotnet.microsoft.com/en-us/download/dotnet/6.0).
-```console
+```
 sudo apt-get install dotnet-sdk-6.0
 ```
 On Windows, it can be installed via the Windows Package Manager, ``winget``, or from the aforementioned download site.
-```console
+```
 winget install Microsoft.DotNet.SDK.6
 ```
 Once installed, clone the repository to a location of your choosing.
-```console
+```
 git clone https://github.com/resistiv/LoxLiaison.git
 ```
 Navigate to the folder containing the file ``LoxLiaison.sln``, and run the following:
-```console
+```
 dotnet build
 ```
 The resulting executables will be built to the ``bin`` subfolders of each project within the solution, from which they can be run.
@@ -38,7 +38,7 @@ For even easier use, two scripts are provided for Unix (``BuildTests.sh``) and W
 - Build the solution again to incorporate the newly generated tests
 
 Run the appropriate script to build the tests and run the following to run the test cases:
-```console
+```
 dotnet test
 ```
 The number of successful and failed tests will be displayed.
