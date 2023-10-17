@@ -33,7 +33,7 @@ This repository makes use of [Robert Nystrom's Lox unit tests](https://github.co
 For ease of generation, all unit test classes are generated using the ``LoxTestGenerator`` project.
 
 For even easier use, two scripts are provided for Unix (``BuildTests.sh``) and Windows (``BuildTests.bat``) to generate the test cases classes for the ``LoxTester`` project. Both scripts will:
-- Build the solution to ensure LoxTestGenerator is built
+- Build the solution to ensure ``LoxTestGenerator`` is built
 - Run ``LoxTestGenerator``, loading tests from ``/LoxTester/Tests`` and outputting to ``/LoxTester``
 - Build the solution again to incorporate the newly generated tests
 
