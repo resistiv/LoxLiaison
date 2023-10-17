@@ -5,11 +5,11 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoxLiaison", "LoxLiaison\LoxLiaison.csproj", "{2236B401-6A24-46A5-BD9F-B53691C9BF3F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenerateAst", "GenerateAst\GenerateAst.csproj", "{160ED107-C283-4BB8-99CB-481C5D7377A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoxAstGenerator", "LoxAstGenerator\LoxAstGenerator.csproj", "{160ED107-C283-4BB8-99CB-481C5D7377A0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoxTester", "LoxTester\LoxTester.csproj", "{32256A9B-6857-4CB8-AFB0-A10CC699BC75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoxTestGenerator", "LoxTestGenerator\LoxTestGenerator.csproj", "{6EE4C0BE-2268-4A6F-B8AA-7886EB1C419A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoxTestGenerator", "LoxTestGenerator\LoxTestGenerator.csproj", "{6EE4C0BE-2268-4A6F-B8AA-7886EB1C419A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

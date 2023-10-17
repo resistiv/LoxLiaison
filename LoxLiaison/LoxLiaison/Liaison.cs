@@ -22,14 +22,17 @@ namespace LoxLiaison
         /// <param name="path">A path to a Lox file.</param>
         public static void RunFile(string path)
         {
-            // Is our user sane? Let's find out!
-            if (!File.Exists(path))
+            // Attempt to read and run!
+            string fileContents = string.Empty;
+            try
             {
-                Console.WriteLine($"Could not access file '{path}', aborting.");
+                fileContents = File.ReadAllText(path);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error: Could not access file '{path}', aborting. Reason: {e.Message}");
                 System.Environment.Exit(65);
             }
-
-            string fileContents = File.ReadAllText(path);
             Run(fileContents);
 
             // An error occurred, exit!
@@ -141,6 +144,9 @@ namespace LoxLiaison
             HadError = true;
         }
 
+        /// <summary>
+        /// Used for unit testing to reset static variables.
+        /// </summary>
         public static void DebugReset()
         {
             interpreter = new();

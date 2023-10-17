@@ -6,7 +6,7 @@ LL has been tested on Windows 10 and Ubuntu 22.04; if you'd like to test it on y
 ## Usage
 When run without an argument, LL operates as a <abbr title="read-eval-print loop">REPL</abbr> prompt which runs until it encounters an exit code. Otherwise, when given a Lox source file, LL will attempt to execute it and then exit.
 ```
-LoxLiaison [Lox source file]
+LoxLiaison [Lox script]
 ```
 
 ## Building

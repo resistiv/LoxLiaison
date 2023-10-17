@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace LoxLiaison.Callable
 {
+    /// <summary>
+    /// Represents an instance of a <see cref="LoxClass"/>.
+    /// </summary>
     public class LoxInstance
     {
         private LoxClass _class;
@@ -14,6 +17,12 @@ namespace LoxLiaison.Callable
             _class = @class;
         }
 
+        /// <summary>
+        /// Gets the value of a property from this instance.
+        /// </summary>
+        /// <param name="name">The name of the property.</param>
+        /// <returns>The value of the property.</returns>
+        /// <exception cref="RuntimeException"></exception>
         public object Get(Token name)
         {
             if (_fields.ContainsKey(name.Lexeme))
@@ -30,6 +39,11 @@ namespace LoxLiaison.Callable
             throw new RuntimeException(name, $"Undefined property '{name.Lexeme}'.");
         }
 
+        /// <summary>
+        /// Sets a property of this instance.
+        /// </summary>
+        /// <param name="name">The name of the property.</param>
+        /// <param name="value">The value of the property.</param>
         public void Set(Token name, object value)
         {
             _fields[name.Lexeme] = value;

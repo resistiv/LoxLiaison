@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace LoxTestGenerator
@@ -9,17 +8,24 @@ namespace LoxTestGenerator
     /// <summary>
     /// Generates MSTest unit tests given a directory of Lox tests.
     /// </summary>
-    public static class Generator
+    public static class LoxTestGenerator
     {
+        /// <summary>
+        /// Main entry point.
+        /// </summary>
+        /// <param name="args">Command line arguments.</param>
         public static void Main(string[] args)
         {
+            Console.WriteLine("LoxTestGenerator v1.0.0 - Kai NeSmith 2023");
+
+            // We need both directories!
             if (args.Length != 2)
             {
-                Console.WriteLine("Usage: LoxTestGenerator [test directory] [output directory]");
+                Console.WriteLine("Usage: LoxTestGenerator <test directory> <output directory>");
                 Environment.Exit(0);
             }
 
-            // Sanity
+            // Time to see if our user knows what they're doing
             if (!Directory.Exists(args[0]))
             {
                 Console.WriteLine($"Error: Could not find test directory '{args[0]}'");
@@ -31,14 +37,15 @@ namespace LoxTestGenerator
                 Environment.Exit(-1);
             }
 
+            // Parse it out!
             ParseTestClasses(args[0], args[1]);
         }
 
         /// <summary>
         /// Parses all directories into classes from the top-level test folder.
         /// </summary>
-        /// <param name="testDir"></param>
-        /// <param name="outDir"></param>
+        /// <param name="testDir">The top-level test directory to start parsing from.</param>
+        /// <param name="outDir">The output directory to write complete classes to.</param>
         private static void ParseTestClasses(string testDir, string outDir)
         {
             ParseTests(testDir, outDir, "GeneralTests");
@@ -59,11 +66,12 @@ namespace LoxTestGenerator
         /// <summary>
         /// Parses a directory into a test class with test methods.
         /// </summary>
-        /// <param name="testDir"></param>
-        /// <param name="outDir"></param>
-        /// <param name="className"></param>
+        /// <param name="testDir">The test directory to parse methods from.</param>
+        /// <param name="outDir">The output directory to write complete classes to.</param>
+        /// <param name="className">The name of the class that these methods will belong to.</param>
         private static void ParseTests(string testDir, string outDir, string className)
         {
+            // Write header info
             StringBuilder sb = new();
             sb.AppendLine("// Generated using LoxTestGenerator");
             sb.AppendLine();
@@ -75,6 +83,7 @@ namespace LoxTestGenerator
             sb.AppendLine($"\tpublic class {className}");
             sb.AppendLine("\t{");
 
+            // Parse each method
             string[] fileNames = Directory.GetFiles(testDir);
             foreach (string file in fileNames)
             {
@@ -85,6 +94,7 @@ namespace LoxTestGenerator
 
                 sb.AppendLine($"\t\t\tstring[] output = Tools.RunFile(\"{file.Replace("\\", "\\\\")}\");");
 
+                // Well, what do we expect?
                 string[] expectations = GetExpectations(file);
                 sb.AppendLine($"\t\t\tAssert.AreEqual({expectations.Length}, output.Length);");
                 for (int i = 0; i < expectations.Length; i++)
@@ -99,12 +109,20 @@ namespace LoxTestGenerator
             sb.AppendLine("\t}");
             sb.AppendLine("}");
 
+            // Write it out!
             File.WriteAllText($"{outDir}{Path.DirectorySeparatorChar}{Path.GetFileName(className)}.cs", sb.ToString());
             Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] Wrote {className}.cs");
         }
 
+        /// <summary>
+        /// Gets all expected output from a unit test.
+        /// </summary>
+        /// <param name="file">The path of the unit test file.</param>
+        /// <returns>An array of <see cref="string"/>s representing the expected output lines.</returns>
         private static string[] GetExpectations(string file)
         {
+            // Abandon hope, all ye who enter here.
+
             string[] lines = File.ReadAllLines(file);
             List<string> expectations = new();
             for (int i = 0; i < lines.Length; i++)
@@ -168,34 +186,56 @@ namespace LoxTestGenerator
             return expectations.ToArray();
         }
 
+        /// <summary>
+        /// Uppercases the first letter of a string.
+        /// </summary>
+        /// <param name="str">A <see cref="string"/> to capitalize.</param>
+        /// <returns>A capitalized <see cref="string"/>.</returns>
         private static string Capitalize(string str)
         {
             return $"{char.ToUpper(str[0])}{str[1..]}";
         }
 
+        /// <summary>
+        /// Converts a directory path to a class name.
+        /// </summary>
+        /// <param name="testDir">A path to a test directory.</param>
+        /// <returns>A class name.</returns>
         private static string Classify(string testDir)
         {
-            // We use GetFileName since it returns the last identifier in the chain, unlike GetDirectoryName
+            // We use GetFileName since it returns the last identifier in the path chain, unlike GetDirectoryName...
             testDir = Path.GetFileName(testDir);
-            string[] words = testDir.Split('_');
 
+            // Split at underscores, capitalize, and recombine
+            string[] words = testDir.Split('_');
             StringBuilder sb = new();
             foreach (string word in words)
             {
                 sb.Append(Capitalize(word));
             }
-            return $"{sb.ToString()}Tests";
+            sb.Append("Tests");
+
+            return sb.ToString();
         }
 
+        /// <summary>
+        /// Converts a file path to a method name.
+        /// </summary>
+        /// <param name="loxFile">A path to a unit test file.</param>
+        /// <returns>A method name.</returns>
         private static string Methodize(string loxFile)
         {
+            // Strip extension
             loxFile = Path.GetFileNameWithoutExtension(loxFile);
+
+            // Edge case for test cases starting with numbers
             if (char.IsDigit(loxFile[0]))
             {
                 loxFile = $"M{loxFile}";
             }
-            string[] words = loxFile.Split('_');
 
+            // Split at underscores, capitalize, and recombine
+            string[] words = loxFile.Split('_');
             StringBuilder sb = new();
             foreach (string word in words)
             {

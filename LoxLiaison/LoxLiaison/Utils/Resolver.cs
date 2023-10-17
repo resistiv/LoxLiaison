@@ -78,13 +78,10 @@ namespace LoxLiaison.Utils
         private void ResolveLocal(Expr expr, Token name)
         {
             for (int i = 0; i < _scopes.Count; i++)
-            //for (int i = _scopes.Count - 1; i >= 0; i--)
             {
                 if (_scopes.ToArray()[i].ContainsKey(name.Lexeme))
-                //if (_scopes.ToArray()[_scopes.Count - 1 - i].ContainsKey(name.Lexeme))
                 {
                     _interpreter.Resolve(expr, i);
-                    //_interpreter.Resolve(expr, _scopes.Count - 1 - i);
                     return;
                 }
             }
@@ -369,8 +366,6 @@ namespace LoxLiaison.Utils
 
         public object VisitVariableExpr(Expr.Variable expr)
         {
-            //if (_scopes.Count != 0 && _scopes.Peek().TryGetValue(expr.Name.Lexeme, out bool outVal) && outVal == false)
-            //if (_scopes.Count != 0 && _scopes.Peek()[expr.Name.Lexeme] == false)
             if (_scopes.Count != 0 && _scopes.Peek().ContainsKey(expr.Name.Lexeme) && _scopes.Peek()[expr.Name.Lexeme] == false)
             {
                 Liaison.Error(expr.Name, "Can't read local variable in its own initializer.");

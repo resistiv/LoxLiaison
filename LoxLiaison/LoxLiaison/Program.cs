@@ -13,9 +13,11 @@ namespace LoxLiaison
         /// <param name="args">Optionally, a script for LL to run.</param>
         public static void Main(string[] args)
         {
+            Console.WriteLine("LoxLiaison v1.0.0 - Kai NeSmith 2023");
+
             if (args.Length > 1)
             {
-                Console.WriteLine("Usage: LoxLiaison [script]");
+                Console.WriteLine("Usage: LoxLiaison [Lox script]");
                 System.Environment.Exit(64);
             }
             else if (args.Length == 1)

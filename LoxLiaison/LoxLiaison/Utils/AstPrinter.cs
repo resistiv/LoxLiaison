@@ -1,11 +1,11 @@
-﻿using System.Text;
+﻿/*using System.Text;
 
 namespace LoxLiaison.Utils
 {
     /// <summary>
     /// Debugging printer to ensure proper AST behaviour.
     /// </summary>
-    /*public class AstPrinter : Expr.IVisitor<string>
+    public class AstPrinter : Expr.IVisitor<string>
     {
         public static void Main(string[] args)
         {
@@ -60,5 +60,6 @@ namespace LoxLiaison.Utils
 
             return builder.ToString();
         }
-    }*/
+    }
 }
+*/

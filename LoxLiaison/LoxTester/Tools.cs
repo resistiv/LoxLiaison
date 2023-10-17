@@ -10,7 +10,7 @@ namespace LoxTester
         /// Runs a file within LoxLiaison, reads the output into an array, and prints the output.
         /// </summary>
         /// <param name="filename">The name of the file to run.</param>
-        /// <returns>Output of the script, split at <see cref="Environment.NewLine"/>.</returns>
+        /// <returns>Output of the script, split at newlines.</returns>
         public static string[] RunFile(string filename)
         {
             // Set recording StringWriter

@@ -78,7 +78,7 @@ namespace LoxLiaison.Utils
         /// <summary>
         /// Interprets a <see cref="List{T}"/> of <see cref="Stmt"/>s.
         /// </summary>
-        /// <param name="statements"></param>
+        /// <param name="statements">A <see cref="List{T}"/> of <see cref="Stmt"/>s to interpret.</param>
         public void Interpret(List<Stmt> statements)
         {
             try

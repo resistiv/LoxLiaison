@@ -19,6 +19,11 @@ namespace LoxLiaison.Callable
             _methods = methods;
         }
 
+        /// <summary>
+        /// Finds a method within this class.
+        /// </summary>
+        /// <param name="name">A method name.</param>
+        /// <returns>A <see cref="LoxFunction"/> representing the method.</returns>
         public LoxFunction FindMethod(string name)
         {
             if (_methods.ContainsKey(name))
