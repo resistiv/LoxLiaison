@@ -44,5 +44,5 @@ dotnet test
 The number of successful and failed tests will be displayed.
 
 As of commit ``21de197``, everything builds, runs, and all tests pass on Windows 10 and Ubuntu 22.04.
-![](./LoxLiaison/LoxTester/Results/win10-tests-2023-10-17.png)
-![](./LoxLiaison/LoxTester/Results/ubuntu2204-tests-2023-10-17.png)
+![](./LoxLiaison/LoxTester/Results/win10-tests-2023-10-17.png "Windows 10 Test Results")
+![](./LoxLiaison/LoxTester/Results/ubuntu2204-tests-2023-10-17.png "Ubuntu 22.04 Test Results")
