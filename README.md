@@ -1,3 +1,6 @@
+
+[//]: # (Hey!! This document is best viewed on GitHub: https://github.com/resistiv/LoxLiaison)
+
 # LoxLiaison
 LoxLiaison is a C# implementation of a Lox interpreter, based heavily upon jlox from the book [*Crafting Interpreters* by Robert Nystrom](https://craftinginterpreters.com/). This project was developed primarily as an assignment for CS 403/503 - Programming Languages (Fall 2023) at the University of Alabama. During development, I attempted to stay as true to the original functionality of jlox as possible, mainly modifying data structures as needed to create equivalent code flow.
 
